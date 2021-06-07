@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="./styles/board.css">
+    <link rel="stylesheet" href="./styles/details.css">
+    <title> TIC-TAC-TOE </title>
+</head>
+<body>
+    <div class = "details">
+        <div class="heading">
+            Tic-Tac-Toe
+        </div>
+    </div>
+
+    <div class="board">
+        <div class="option-form">
+            Choose an Option : <br>
+
+            <label for="single-player">Play With Computer</label><br>
+            <input type="checkbox" id="single-player">
+
+            <label for="multi-player"> Play With Friend </label>
+            <input type="checkbox" id="multi-player">
+        </div>
+    </div>
+
+    <div class="reset-game">
+        <button class="reset-game-button">
+            Reset
+        </button>
+    </div>
+
+    <script src="./scripts/winDetector.js"></script>
+    <script src="./scripts/main.js"></script>
+    <script src="./scripts/TextLoader.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+* {
+    margin : 0;
+    padding : 0;
+    box-sizing: border-box;
+}
+
+html {
+    height : 100%;
+    width : 100%;
+}
+
+body {
+    height : 100%;
+    width : 100%;
+    font-family: 'Architects Daughter', cursive;
+    display : flex;
+    flex-flow : column;
+    justify-content : center;
+    align-items : center;
+}
+
+.reset-game {
+    font-size : 2rem;
+    margin-top : 10px;
+    border : 2px solid black;
+    padding-right: 10px;
+    padding-left: 10px;
+    border-radius : 10px;
+}
+
+.reset-game-button:focus {
+    outline: 0;
+}
+
+/* 
+@media (max-width : 400px)
+{
+    html {
+
+    }
+} */

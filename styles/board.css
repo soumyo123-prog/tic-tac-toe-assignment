@@ -1,0 +1,85 @@
+.board {
+    height : 400px;
+    width : 400px;
+    border : 10px solid greenyellow;
+    border-radius: 10px;
+
+    display : grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid {
+    font-size: 5em;
+    text-align: center;
+}
+
+.grid-1, .grid-2, .grid-4, .grid-5 {
+    border-right: 2px solid black;
+    border-bottom: 2px solid #000;
+}
+
+.grid-3, .grid-6 {
+    border-bottom: 2px solid #000;
+}
+
+.grid-7, .grid-8 {
+    border-right : 2px solid black;
+}
+
+.option-form, .choose-form, .number-of-games, .final-winner {
+    grid-row-start: 2;
+    grid-row-end:3;
+    grid-column-start: 1;
+    grid-column-end: 4;
+
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.final-winner {
+    font-size: 1.5rem;
+}
+
+#single-player, #multi-player, #x, #o {
+    display : none;
+}
+
+label[for="single-player"], label[for="multi-player"] {
+    cursor : pointer;
+    font-size: 1.5rem;
+}
+
+label[for="single-player"]:hover, label[for="multi-player"]:hover {
+    color : blue;
+}
+
+label[for="x"], label[for="o"] {
+    cursor : pointer;
+    font-size: 1.5rem;
+}
+
+label[for="x"]:hover, label[for="o"]:hover {
+    color : blue;
+}
+
+#numGames {
+    border : 2px solid #000;
+    padding : 5px;
+}
+
+.number-of-games button {
+    outline : 0;
+}
+
+@media (max-width: 400px) {
+    .board {
+        width : 100vw;
+        height : 100vw;
+    }
+
+    .grid {
+        font-size: 3.75rem;
+        padding-top : 5px;
+    }
+}
