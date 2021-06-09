@@ -1,5 +1,5 @@
 .details {
-    width : 80%;
+    width : 400px;
     border : 2px solid #000;
     margin-bottom: 20px;
     border-radius: 10px;
@@ -36,6 +36,10 @@
     grid-column-end: 2;
 }
 
+.player-turn-2 {
+    border-bottom-right-radius: 10px;
+}
+
 .scores>div:first-of-type {
     border-bottom: 2px solid #000;
 }
@@ -50,4 +54,10 @@
 
 .turn>div:first-of-type {
     border-bottom: 2px solid #000;
+}
+
+@media (max-width: 400px) {
+    .details {
+        width : 90%;
+    }
 }

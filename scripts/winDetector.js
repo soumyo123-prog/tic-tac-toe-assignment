@@ -1,265 +1,55 @@
 const winDetector = (i,j,layout) => {
+
     const check = layout[i][j];
+    const indices = [];
+    let won = false;
 
-    if (i === 0) {
-        if (j === 0) {
-            if (layout[i+1][j] === check && layout[i+2][j] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i+1, second : j},
-                        {first : i+2, second : j}
-                    ]
-                };
-            }
-
-            if (layout[i][j+1] === check && layout[i][j+2] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i, second : j+1},
-                        {first : i, second : j+2}
-                    ]
-                };
-            }
-
-            if (layout[i+1][j+1] === check && layout[i+2][j+2] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i+1, second : j+1},
-                        {first : i+2, second : j+2}
-                    ]
-                };
-            }
-
-        } else if (j === 1) {
-            if (layout[i+1][j] === check && layout[i+2][j] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i+1, second : j},
-                        {first : i+2, second : j}
-                    ]
-                };
-            }
-
-            if (layout[i][j-1] === check && layout[i][j+1] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i, second : j-1},
-                        {first : i, second : j+1}
-                    ]
-                };
-            }
-
-        } else {
-            if (layout[i+1][j] === check && layout[i+2][j] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i+1, second : j},
-                        {first : i+2, second : j}
-                    ]
-                };
-            }
-
-            if (layout[i][j-1] === check && layout[i][j-2] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i, second : j-1},
-                        {first : i, second : j-2}
-                    ]
-                };
-            }
-
-            if (layout[i+1][j-1] === check && layout[i+2][j-2] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i+1, second : j-1},
-                        {first : i+2, second : j-2}
-                    ]
-                };
-            }
-        }
-
-    } else if (i === 1) {
-        if (j==0) {
-            if (layout[i][j+1] === check && layout[i][j+2] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i, second : j+1},
-                        {first : i, second : j+2}
-                    ]
-                };
-            }
-
-            if (layout[i-1][j] === check && layout[i+1][j] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i-1, second : j},
-                        {first : i+1, second : j}
-                    ]
-                };
-            }
-            
-        } else if (j==1) {
-            if (layout[i][j+1] === check && layout[i][j-1] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i, second : j+1},
-                        {first : i, second : j-1}
-                    ]
-                };
-            }
-
-            if (layout[i-1][j] === check && layout[i+1][j] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i-1, second : j},
-                        {first : i+1, second : j}
-                    ]
-                };
-            }
-
-        } else {
-            if (layout[i][j-1] === check && layout[i][j-2] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i, second : j-1},
-                        {first : i, second : j-2}
-                    ]
-                };
-            }
-
-            if (layout[i-1][j] === check && layout[i+1][j] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i-1, second : j},
-                        {first : i+1, second : j}
-                    ]
-                };
-            }
-        }
-
-    } else {
-        if (j == 0) {
-            if (layout[i-1][j] === check && layout[i-2][j] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i-1, second : j},
-                        {first : i-2, second : j}
-                    ]
-                };
-            }
-
-            if (layout[i][j+1] === check && layout[i][j+2] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i, second : j+1},
-                        {first : i, second : j+2}
-                    ]
-                };
-            }
-
-            if (layout[i-1][j+1] === check && layout[i-2][j+2] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i-1, second : j+1},
-                        {first : i-2, second : j+2}
-                    ]
-                };
-            }
-
-        } else if (j==1) {
-            if (layout[i-1][j] === check && layout[i-2][j] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i-1, second : j},
-                        {first : i-2, second : j}
-                    ]
-                };
-            }
-
-            if (layout[i][j-1] === check && layout[i][j+1] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i, second : j-1},
-                        {first : i, second : j+1}
-                    ]
-                };
-            }
-
-        } else {
-            if (layout[i-1][j] === check && layout[i-2][j] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i-1, second : j},
-                        {first : i-2, second : j}
-                    ]
-                };
-            }
-
-            if (layout[i][j-1] === check && layout[i][j-2] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i, second : j-1},
-                        {first : i, second : j-2}
-                    ]
-                };
-            }
-
-            if (layout[i-1][j-1] === check && layout[i-2][j-2] === check) {
-                return {
-                    won : true,
-                    indexes : [
-                        {first : i, second : j},
-                        {first : i-1, second : j-1},
-                        {first : i-2, second : j-2}
-                    ]
-                };
-            }
-
+    for (let r=0; r<3; r++) {
+        if (layout[r][0] === check && layout[r][1] === check && layout[r][2] === check) {
+            won = true;
+            indices.push({first : r, second : 0});
+            indices.push({first : r, second : 1});
+            indices.push({first : r, second : 2});
+            break;
         }
     }
-    return {
-        won : false
-    };
+
+    if (!won) {
+        for (let c=0; c<3; c++) {
+            if (layout[0][c] === check && layout[1][c] === check && layout[2][c] === check) {
+                won = true;
+                indices.push({first : 0, second : c});
+                indices.push({first : 1, second : c});
+                indices.push({first : 2, second : c});
+                break;
+            }
+        }
+    }
+
+    if (!won) {
+        if (layout[0][0] === check && layout[1][1] === check && layout[2][2] === check) {
+            won = true;
+            indices.push({first : 0, second : 0});
+            indices.push({first : 1, second : 1});
+            indices.push({first : 2, second : 2});
+        }
+
+        if (!won) {
+            if (layout[0][2] === check && layout[1][1] === check && layout[2][0] === check) {
+                won = true;
+                indices.push({first : 0, second : 2});
+                indices.push({first : 1, second : 1});
+                indices.push({first : 2, second : 0});
+            }
+        }
+    }
+    
+    if (won) {
+        return {
+            won,
+            indexes : indices
+        }
+    }
+    
+    return {won}
 }

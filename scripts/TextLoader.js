@@ -7,17 +7,19 @@ let x = null;
 let o = null;
 let numGames = null;
 
-const chooseForm = `
-    <div class="choose-form">
-        Choose between X or O (for Player-1) : <br>
+const chooseForm = (type) => { 
+    return `
+        <div class="choose-form">
+            Choose between X or O (for Player ${type === 'single' ? "" : '- 1'}) : <br>
 
-        <label for="x"> X (makes first move) </label> <br>
-        <input type="checkbox" id="x">
+            <label for="x"> X (makes first move) </label> <br>
+            <input type="checkbox" id="x">
 
-        <label for="o"> O (makes second move) </label>
-        <input type="checkbox" id="o">
-    </div>
-`
+            <label for="o"> O (makes second move) </label>
+            <input type="checkbox" id="o">
+        </div>
+    `
+}
 
 const startedBoard = `
     <div class="grid grid-1"></div>
@@ -40,24 +42,24 @@ const numGamesConfirm = `
     </div>
 `
 
-const changeStartedDetails = (games) => {
+const changeStartedDetails = (games, type) => {
     return `
         <div class="game-number">
             Game : 1 / ${games}
         </div>
         <div class="scores">
-            <div class="player-score-1">P1 : 0</div>
-            <div class="player-score-2">P2 : 0</div>
+            <div class="player-score-1">${type === "single" ? "Computer" : "P1"} : 0</div>
+            <div class="player-score-2">${type === "single" ? "Player" : "P2"} : 0</div>
         </div>
         <div class="turn">
-            <div class="player-turn-1">P1</div>
-            <div class="player-turn-2">P2</div>
+            <div class="player-turn-1">${type === "single" ? "Computer" : "P1"}</div>
+            <div class="player-turn-2">${type === "single" ? "Player" : "P2"}</div>
         </div>
     `
 }
 
 single.onclick = () => {
-    board.innerHTML = chooseForm;
+    board.innerHTML = chooseForm("single");
     x = document.querySelector('label[for="x"]');
     y = document.querySelector('label[for="o"]');
 
@@ -71,7 +73,7 @@ single.onclick = () => {
 }
 
 multi.onclick = () => {
-    board.innerHTML = chooseForm;
+    board.innerHTML = chooseForm("multi");
     x = document.querySelector('label[for="x"]');
     y = document.querySelector('label[for="o"]');
 
@@ -89,9 +91,16 @@ const setOnClickListenersMove = () => {
         board.innerHTML = numGamesConfirm;
         numGames = document.getElementById('numGames');
 
-        gameState.moves = {
-            player1 : "X",
-            player2 : "O"
+        if (gameState.type === "single") {
+            gameState.moves = {
+                bot : "O",
+                player : "X"
+            }
+        } else {
+            gameState.moves = {
+                player1 : "X",
+                player2 : "O"
+            }
         }
 
         setNumGames();
@@ -101,9 +110,16 @@ const setOnClickListenersMove = () => {
         board.innerHTML = numGamesConfirm;
         numGames = document.getElementById('numGames');
 
-        gameState.moves = {
-            player1 : "O",
-            player2 : "X"
+        if (gameState.type === "single") {
+            gameState.moves = {
+                bot : "X",
+                player : "O"
+            }
+        } else {
+            gameState.moves = {
+                player1 : "O",
+                player2 : "X"
+            }
         }
 
         setNumGames();
@@ -114,9 +130,9 @@ const setNumGames = () => {
     const confirmNum = document.querySelector('.numgamesConfirm');
     confirmNum.onclick = () => {
         board.innerHTML = startedBoard;
-        details.innerHTML = details.innerHTML + changeStartedDetails(numGames.value);
+        details.innerHTML = details.innerHTML + changeStartedDetails(numGames.value, gameState.type);
 
         gameState.numberOfGames = Number(numGames.value);
-        setOnClickListenersLayout();
+        startGame();
     }
 }

@@ -31,18 +31,27 @@ const finalWinnerText = (winner) => {
             </div>
         `
     } else {
-        return `
-            <div class="final-winner">
-                Congratulations ! <br>
-                Player ${winner} Won the Game
-            </div>
-        `
+        if (gameState.type === "multi") {
+            return `
+                <div class="final-winner">
+                    Congratulations ! <br>
+                    Player ${winner + " has"} Won the Game
+                </div>
+            `
+        } else {
+            return `
+                <div class="final-winner">
+                    Congratulations ! <br>
+                    ${winner === 1 ? "Computer has" : "Player has"} Won the Game
+                </div>
+            `
+        }
     }   
 }
 
 const finalWinnerFinder = () => {
-    const s1 = gameState.scores.player1;
-    const s2 = gameState.scores.player2;
+    const s1 = gameState.type === "multi" ? gameState.scores.player1 : gameState.scores.bot;
+    const s2 = gameState.type === "multi" ? gameState.scores.player2 : gameState.scores.player;
 
     if (s1 > s2) {
         board.innerHTML = finalWinnerText(1);
@@ -65,16 +74,19 @@ const changeStyleOnWin = (player, indexes) => {
         grids[currIndex].style.color = "blue";
     }
 
-    gameState.scores[player === 1 ? "player1" : "player2"] += 1;
-    console.log(gameState.scores);
-
     const s1 = document.querySelector('.player-score-1');
     const s2 = document.querySelector('.player-score-2');
+
+    if (gameState.type === "multi") {
+        gameState.scores[player === 1 ? "player1" : "player2"] += 1;
+    } else {
+        gameState.scores[player === 1 ? "bot" : "player"] += 1;
+    }
     
     if (player === 1) {
-        s1.innerHTML = "P1 : " + (Number(s1.innerHTML.replace("P1 : ","")) + 1);
+        s1.innerHTML = (gameState.type === "multi" ? "P1 " : "Computer ")+" : "+gameState.scores[gameState.type === "multi" ? "player1" : "bot"];
     } else {
-        s2.innerHTML = "P2 : " + (Number(s2.innerHTML.replace("P2 : ","")) + 1);
+        s2.innerHTML = (gameState.type === "multi" ? "P2 " : "Player ")+" : "+gameState.scores[gameState.type === "multi" ? "player1" : "player"];
     }
 
     setTimeout(() => {
@@ -93,7 +105,6 @@ const gameOver = () => {
     }
 
     gameState.gamesCompleted += 1;
-    console.log(gameState.gamesCompleted, gameState.numberOfGames);
     if (gameState.gamesCompleted === gameState.numberOfGames) {
         finalWinnerFinder();
 
@@ -117,23 +128,41 @@ const changeTurn = () => {
 }
 
 const startGame = () => {
-    if (gameState.type === 'multi') {
-        t1 = document.querySelector('.player-turn-1');
-        t2 = document.querySelector('.player-turn-2');
+    t1 = document.querySelector('.player-turn-1');
+    t2 = document.querySelector('.player-turn-2');
 
+    if (gameState.type === 'multi') {
         turn = gameState.moves.player1 === "X" ? 1 : 2;
         initialTurn = turn;
 
         changeTurn();
+        setOnClickListenersMulti();
+
+    } else {
+        turn = gameState.moves.player === "X" ? 2 : 1;
+        initialTurn = turn;
+
+        if (turn === 1) {
+            const {row,col} = findBestMove(gameState.moves);
+            layout[row][col] = "X";
+            grids[3*row + col].innerHTML = "X";
+            turn = 2;
+            moves += 1;
+        }
+
+        changeTurn();
+        setOnClickListenersSingle();
     }
 }
 
-const setOnClickListenersLayout = () => {
+const setOnClickListenersMulti = () => {
     for(let i=0; i<9; i++) {
         grids[i].onclick = (e) => {
             if (e.target.innerHTML === "") {
                 
                 let fill = null;
+                moves += 1;
+
                 if (gameState.type === "multi") {
                     if (turn === 1) {
                         fill = gameState.moves.player1;
@@ -143,8 +172,6 @@ const setOnClickListenersLayout = () => {
                         turn = 1;
                     }
                 }
-
-                moves += 1;
 
                 layout[Math.floor(i/3)][i%3] = fill;
                 e.target.innerHTML = fill;
@@ -164,6 +191,51 @@ const setOnClickListenersLayout = () => {
             }
         }
     }
+}
 
-    startGame();
+const callBot = () => {
+    const {row,col} = findBestMove(gameState.moves);
+    layout[row][col] = gameState.moves.bot;
+    grids[row*3 + col].innerHTML = gameState.moves.bot;
+
+    moves += 1;
+    
+    const winObj = winDetector(row,col,layout);
+    if (winObj.won) {
+        changeStyleOnWin(turn, winObj.indexes);
+
+    } else {
+        if (moves === 9) {
+            gameOver();
+        } else {
+            turn = turn === 1 ? 2 : 1;
+            changeTurn();
+        }
+    }
+}
+
+const setOnClickListenersSingle = () => {
+    for (let i=0; i<9; i++) {
+        grids[i].onclick = (e) => {
+            if (e.target.innerHTML === "") {
+                layout[Math.floor(i/3)][i%3] = gameState.moves.player;
+                e.target.innerHTML = gameState.moves.player;
+                moves += 1;
+
+                const winObj = winDetector(Math.floor(i/3),i%3,layout);
+                if (winObj.won) {
+                    changeStyleOnWin(turn, winObj.indexes);
+
+                } else {
+                    if (moves === 9) {
+                        gameOver();
+                    } else {
+                        turn = turn === 1 ? 2 : 1;
+                        changeTurn();
+                        callBot();
+                    }
+                }
+            }
+        }
+    }
 }
