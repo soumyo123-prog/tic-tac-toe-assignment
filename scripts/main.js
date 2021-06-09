@@ -5,7 +5,7 @@ let t1 = null, t2 = null;
 let layout = [["","",""],["","",""],["","",""]];
 
 let turn = null, initialTurn = null;
-let moves = 0;
+let moves = 0, countCalls = 0;
 
 let gameState = {
     numberOfGames : 1,
@@ -111,9 +111,7 @@ const gameOver = () => {
     } else {
         gameNumber.innerHTML = 'Game : ' + (gameState.gamesCompleted+1) + ' / ' + gameState.numberOfGames;
         turn = initialTurn;
-        changeTurn();
-
-        moves = 0;
+        startGame();
     }
 }
 
@@ -128,6 +126,7 @@ const changeTurn = () => {
 }
 
 const startGame = () => {
+    moves = 0, countCalls = 0;
     t1 = document.querySelector('.player-turn-1');
     t2 = document.querySelector('.player-turn-2');
 
@@ -194,7 +193,11 @@ const setOnClickListenersMulti = () => {
 }
 
 const callBot = () => {
-    const {row,col} = findBestMove(gameState.moves);
+    countCalls++;
+    let row = null, col = null;
+
+    const values = findBestMove(gameState.moves);
+    row = values.row, col = values.col;
     layout[row][col] = gameState.moves.bot;
     grids[row*3 + col].innerHTML = gameState.moves.bot;
 
@@ -208,7 +211,7 @@ const callBot = () => {
         if (moves === 9) {
             gameOver();
         } else {
-            turn = turn === 1 ? 2 : 1;
+            turn = 2;
             changeTurn();
         }
     }
@@ -230,7 +233,7 @@ const setOnClickListenersSingle = () => {
                     if (moves === 9) {
                         gameOver();
                     } else {
-                        turn = turn === 1 ? 2 : 1;
+                        turn = 1;
                         changeTurn();
                         callBot();
                     }

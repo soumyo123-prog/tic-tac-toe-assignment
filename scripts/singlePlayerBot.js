@@ -10,48 +10,54 @@ const isNotPlayable = () => {
 }
 
 const findScore = (moves) => {
-    for (let r=0; r<3; r++) {
-        if (layout[r][0] === layout[r][1] && layout[r][1] === layout[r][2]) {
-            if (layout[r][0] === moves.bot) {
-                return 10;
-            } else {
+
+    for (let row = 0; row<3; row++) {
+        if (layout[row][0]==layout[row][1] && layout[row][1]==layout[row][2]) {
+            if (layout[row][0]==moves.bot) {
+                return +10;
+            }
+            else if (layout[row][0]==moves.player) {
                 return -10;
             }
         }
     }
-
-    for (let c=0; c<3; c++) {
-        if (layout[0][c] === layout[1][c] && layout[1][c] === layout[2][c]) {
-            if (layout[0][c] === moves.bot) {
-                return 10;
-            } else {
+ 
+    for (let col = 0; col<3; col++) {
+        if (layout[0][col]==layout[1][col] && layout[1][col]==layout[2][col]) {
+            if (layout[0][col]==moves.bot) {
+                return +10;
+            }
+            else if (layout[0][col]==moves.player) {
                 return -10;
             }
         }
     }
-
-    if (layout[0][0] === layout[1][1] && layout[1][1] === layout[2][2]) {
-        if (layout[0][0] === moves.bot) {
-            return 10;
-        } else {
+ 
+    if (layout[0][0]==layout[1][1] && layout[1][1]==layout[2][2]) {
+        if (layout[0][0]==moves.bot) {
+            return +10;
+        }
+        else if (layout[0][0]==moves.player) {
+            return -10;
+        }
+    }
+ 
+    if (layout[0][2]==layout[1][1] && layout[1][1]==layout[2][0]) {
+        if (layout[0][2]==moves.bot) {
+            return +10;
+        }
+        else if (layout[0][2]==moves.player) {
             return -10;
         }
     }
 
-    if (layout[0][2] === layout[1][1] && layout[1][1] === layout[2][0]) {
-        if (layout[0][2] === moves.bot) {
-            return 10;
-        } else {
-            return -10;
-        }
-    }
     return 0;
 }
 
 const miniMax = (depth, maximizerTurn, moves) => {
     const score = findScore(moves);
     if (score === 10 || score === -10) {
-        return score === 10 ? score - depth : score + depth;
+        return score;
     }
     if (isNotPlayable()) {
         return 0;
