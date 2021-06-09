@@ -5,7 +5,7 @@ let t1 = null, t2 = null;
 let layout = [["","",""],["","",""],["","",""]];
 
 let turn = null, initialTurn = null;
-let moves = 0, countCalls = 0;
+let moves = 0;
 
 let gameState = {
     numberOfGames : 1,
@@ -145,6 +145,7 @@ const startGame = () => {
             const {row,col} = findBestMove(gameState.moves);
             layout[row][col] = "X";
             grids[3*row + col].innerHTML = "X";
+            grids[3*row + col].style.color = 'var(--pink)';
             turn = 2;
             moves += 1;
         }
@@ -176,8 +177,21 @@ const setOnClickListenersMulti = () => {
                 e.target.innerHTML = fill;
 
                 const currTurn = turn === 1 ? 2 : 1;
-                const winObj = winDetector(Math.floor(i/3), i%3, layout);
+                if (currTurn === 1) {
+                    if (gameState.moves.player1 === "O") {
+                        e.target.style.color = 'var(--yellow)';
+                    } else {
+                        e.target.style.color = 'var(--pink)';
+                    }
+                } else {
+                    if (gameState.moves.player2 === "O") {
+                        e.target.style.color = 'var(--yellow)';
+                    } else {
+                        e.target.style.color = 'var(--pink)';
+                    }
+                }
 
+                const winObj = winDetector(Math.floor(i/3), i%3, layout);
                 if (winObj.won) {
                     changeStyleOnWin(currTurn, winObj.indexes);
                 } else {
@@ -193,13 +207,18 @@ const setOnClickListenersMulti = () => {
 }
 
 const callBot = () => {
-    countCalls++;
     let row = null, col = null;
 
     const values = findBestMove(gameState.moves);
     row = values.row, col = values.col;
     layout[row][col] = gameState.moves.bot;
-    grids[row*3 + col].innerHTML = gameState.moves.bot;
+    grids[row*3 + col].innerHTML = `<span>${gameState.moves.bot}</span>`;
+
+    if (gameState.moves.bot === "X") {
+        grids[3*row + col].style.color = 'var(--pink)';
+    } else {
+        grids[3*row + col].style.color = 'var(--yellow)';
+    }
 
     moves += 1;
     
@@ -213,7 +232,14 @@ const callBot = () => {
         } else {
             turn = 2;
             changeTurn();
+            setOnClickListenersSingle()
         }
+    }
+}
+
+const removeEventListenerSingle = () => {
+    for (let i=0; i<9; i++) {
+        grids[i].onclick = null;
     }
 }
 
@@ -222,8 +248,14 @@ const setOnClickListenersSingle = () => {
         grids[i].onclick = (e) => {
             if (e.target.innerHTML === "") {
                 layout[Math.floor(i/3)][i%3] = gameState.moves.player;
-                e.target.innerHTML = gameState.moves.player;
+                e.target.innerHTML = `<span>${gameState.moves.player}</span>`;
                 moves += 1;
+
+                if (gameState.moves.player === "X") {
+                    e.target.style.color = 'var(--pink)';
+                } else {
+                    e.target.style.color = 'var(--yellow)';
+                }
 
                 const winObj = winDetector(Math.floor(i/3),i%3,layout);
                 if (winObj.won) {
@@ -235,7 +267,10 @@ const setOnClickListenersSingle = () => {
                     } else {
                         turn = 1;
                         changeTurn();
-                        callBot();
+                        removeEventListenerSingle();
+                        setTimeout(() => {
+                            callBot();
+                        }, 1000);
                     }
                 }
             }

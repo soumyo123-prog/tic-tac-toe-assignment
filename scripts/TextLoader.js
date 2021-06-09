@@ -2,10 +2,13 @@ const details = document.querySelector('.details');
 const board = document.querySelector('.board');
 const single = document.querySelector('label[for="single-player"]');
 const multi = document.querySelector('label[for="multi-player"]');
+const logo = document.querySelector('.logo');
 
 let x = null;
 let o = null;
 let numGames = null;
+
+logo.style.display = 'block';
 
 const chooseForm = (type) => { 
     return `
@@ -130,7 +133,8 @@ const setNumGames = () => {
     const confirmNum = document.querySelector('.numgamesConfirm');
     confirmNum.onclick = () => {
         board.innerHTML = startedBoard;
-        details.innerHTML = details.innerHTML + changeStartedDetails(numGames.value, gameState.type);
+        details.innerHTML = changeStartedDetails(numGames.value, gameState.type);
+        logo.style.display = 'none';
 
         gameState.numberOfGames = Number(numGames.value);
         startGame();

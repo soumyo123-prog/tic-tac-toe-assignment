@@ -6,27 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Seymour+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles/style.css">
     <link rel="stylesheet" href="./styles/board.css">
     <link rel="stylesheet" href="./styles/details.css">
-    <title> TIC-TAC-TOE </title>
+    <title> TicTacToe </title>
 </head>
 <body>
-    <div class = "details">
-        <div class="heading">
-            Tic-Tac-Toe
-        </div>
+    <div class="logo">
+        <span class="text">
+            <span class="yellow"> t </span>
+            <span class="pink">   i </span>
+            <span class="yellow"> c </span> <br>
+            <span class="pink">   t </span>
+            <span class="yellow"> a </span>
+            <span class="pink">   c </span> <br>
+            <span class="yellow"> t </span>
+            <span class="pink">   o </span>
+            <span class="yellow"> e </span>
+        </span>
     </div>
+    
+    <div class = "details"></div>
 
     <div class="board">
         <div class="option-form">
-            Choose an Option : <br>
-
-            <label for="single-player">Play With Computer</label><br>
+            <label for="single-player">Single Player</label><br>
             <input type="checkbox" id="single-player">
 
-            <label for="multi-player"> Play With Friend </label>
+            <label for="multi-player"> Multi Player </label>
             <input type="checkbox" id="multi-player">
         </div>
     </div>

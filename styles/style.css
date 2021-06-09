@@ -1,3 +1,12 @@
+:root {
+    --color1 : #3a1c94;
+    --color2 : #1e0e4f;  
+    --color3 : #0c0521;
+    --borderColor : #5423e8;  
+    --yellow : #fae034;
+    --pink : #f02b8d;
+}
+
 * {
     margin : 0;
     padding : 0;
@@ -17,6 +26,8 @@ body {
     flex-flow : column;
     justify-content : center;
     align-items : center;
+    
+    background-image: linear-gradient(to bottom right, var(--color1), var(--color2), var(--color3));
 }
 
 .reset-game {
@@ -31,11 +42,3 @@ body {
 .reset-game-button:focus {
     outline: 0;
 }
-
-/* 
-@media (max-width : 400px)
-{
-    html {
-
-    }
-} */

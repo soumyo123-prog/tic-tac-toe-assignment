@@ -1,8 +1,10 @@
 .board {
     height : 400px;
     width : 400px;
-    border : 10px solid greenyellow;
+    border : 10px solid var(--borderColor);
     border-radius: 10px;
+    min-width: 270px;
+    min-height: 270px;
 
     display : grid;
     grid-template-rows: 1fr 1fr 1fr;
@@ -12,19 +14,24 @@
 .grid {
     font-size: 5em;
     text-align: center;
+    font-family: 'Seymour One', sans-serif;
+
+    display : flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .grid-1, .grid-2, .grid-4, .grid-5 {
-    border-right: 2px solid black;
-    border-bottom: 2px solid #000;
+    border-right: 10px solid var(--borderColor);
+    border-bottom: 10px solid var(--borderColor);
 }
 
 .grid-3, .grid-6 {
-    border-bottom: 2px solid #000;
+    border-bottom: 10px solid var(--borderColor);
 }
 
 .grid-7, .grid-8 {
-    border-right : 2px solid black;
+    border-right : 10px solid var(--borderColor);
 }
 
 .option-form, .choose-form, .number-of-games, .final-winner {
@@ -45,13 +52,37 @@
     display : none;
 }
 
+label[for="single-player"] {
+    display : block;
+    margin-left: auto;
+    margin-right: auto;
+    width : 80%;
+    border-radius : 30px;
+    background-image: linear-gradient(to right, #fc0373, #a503fc);
+    color : white;
+    padding : 5px;
+}
+
+label[for="multi-player"] {
+    display : block;
+    margin-left: auto;
+    margin-right: auto;
+    width : 80%;
+    border-radius : 30px;
+    background-image: linear-gradient(to right, #fc9003, #d7fc03);
+    color : black;
+    padding : 5px;
+}
+
+
 label[for="single-player"], label[for="multi-player"] {
     cursor : pointer;
     font-size: 1.5rem;
+    transition: all 0.2s ease-in;
 }
 
 label[for="single-player"]:hover, label[for="multi-player"]:hover {
-    color : blue;
+    transform : scale(1.2,1.2);
 }
 
 label[for="x"], label[for="o"] {
@@ -64,7 +95,7 @@ label[for="x"]:hover, label[for="o"]:hover {
 }
 
 #numGames {
-    border : 2px solid #000;
+    border : 10px solid var(--borderColor);
     padding : 5px;
 }
 
@@ -74,12 +105,17 @@ label[for="x"]:hover, label[for="o"]:hover {
 
 @media (max-width: 400px) {
     .board {
-        width : 100vw;
-        height : 100vw;
+        width : 90vw;
+        height : 90vw;
     }
 
     .grid {
         font-size: 3.75rem;
-        padding-top : 5px;
+    }
+}
+
+@media (max-width : 370px) {
+    .grid {
+        font-size: 2.8rem;
     }
 }

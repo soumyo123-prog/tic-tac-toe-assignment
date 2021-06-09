@@ -1,26 +1,37 @@
 .details {
     width : 400px;
-    border : 2px solid #000;
     margin-bottom: 20px;
-    border-radius: 10px;
+    margin-top : 20px;
 
     display : grid;
-    grid-template-rows: repeat(3,auto);
+    grid-template-rows: repeat(2,auto);
     grid-template-columns: repeat(2,auto);
 }
 
-.heading {
+.logo {
     font-size: 2rem;
     text-align: center;
+    font-family: 'Seymour One', sans-serif;
+    text-transform: uppercase;
+    
+    display : flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    grid-column-start: 1;
-    grid-column-end: 3;
+.yellow {
+    color : var(--yellow);
+}
+
+.pink {
+    color : var(--pink);
 }
 
 .game-number {
     font-size : 1.5rem;
-    border-top : 2px solid #000;
-    border-bottom: 2px solid #000;
+    border : 2px solid #000;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
     text-align: center;
 
     grid-column-start: 1;
@@ -34,14 +45,21 @@
 
     grid-column-start: 1;
     grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+
+.player-score-2 {
+    border-bottom-left-radius: 10px;
 }
 
 .player-turn-2 {
     border-bottom-right-radius: 10px;
 }
 
-.scores>div:first-of-type {
+.scores>div {
     border-bottom: 2px solid #000;
+    border-left: 2px solid #000;
 }
 
 .turn {
@@ -50,14 +68,36 @@
 
     grid-column-start: 2;
     grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+
 }
 
-.turn>div:first-of-type {
+.turn>div {
     border-bottom: 2px solid #000;
+    border-right: 2px solid #000;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 500px) {
     .details {
-        width : 90%;
+        width : 80%;
+    }
+
+    .turn, .scores {
+        font-size: 1.2rem;
+    }
+
+    .logo {
+        width : 80%;
+    }
+}
+
+@media (max-width: 450px) {
+    .logo {
+        font-size: 2rem;
+    }
+
+    .text::before {
+        filter : blur(1px);
     }
 }
