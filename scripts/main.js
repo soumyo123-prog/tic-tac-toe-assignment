@@ -15,8 +15,12 @@ let gameState = {
     moves : null
 }
 
-resetButton.onclick = () => {
+const reset = () => {
     window.location.reload();
+}
+
+resetButton.onclick = () => {
+    reset();
 }
 
 const finalWinnerText = (winner) => {
@@ -62,7 +66,7 @@ const finalWinnerFinder = () => {
     }  
     
     setTimeout(() => {
-        resetGame();
+        reset();
     }, 2000);
 }
 
@@ -91,7 +95,7 @@ const changeStyleOnWin = (player, indexes) => {
     }
 
     setTimeout(() => {
-        window.location.reload();
+        finalWinnerFinder();
     }, 1000);
 }
 
