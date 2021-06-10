@@ -149,7 +149,7 @@ const setNumGames = () => {
         const m2 = document.querySelector('.player-2-move');
 
         if (gameState.type === "single") {
-            p1.style.backgroundImage = "url('../assets/robot.png')";
+            p1.style.backgroundImage = "url('/assets/robot.png')";
 
             if (gameState.moves.bot === "X") {
                 m1.innerHTML = "X";
@@ -164,7 +164,7 @@ const setNumGames = () => {
             }
 
         } else {
-            p1.style.backgroundImage = "url('../assets/human.png')";
+            p1.style.backgroundImage = "url('/assets/human.png')";
 
             if (gameState.moves.player1 === "X") {
                 m1.innerHTML = "X";
@@ -178,7 +178,7 @@ const setNumGames = () => {
                 m2.style.color = 'var(--pink)'; 
             }
         }
-        p2.style.backgroundImage = "url('../assets/human.png')";
+        p2.style.backgroundImage = "url('/assets/human.png')";
 
         gameState.numberOfGames = Number(numGames.value);
         startGame();
