@@ -117,18 +117,18 @@ const gameOver = () => {
 
 const changeTurn = () => {
     if (turn === 1) {
-        t1.style.backgroundColor = '#f5c542';
-        t2.style.backgroundColor = 'white';
+        t1.style.backgroundColor = 'var(--color3)';
+        t2.style.backgroundColor = 'var(--color1)';
     } else {
-        t2.style.backgroundColor = '#f5c542';
-        t1.style.backgroundColor = 'white';
+        t2.style.backgroundColor = 'var(--color3)';
+        t1.style.backgroundColor = 'var(--color1)';
     }
 }
 
 const startGame = () => {
     moves = 0, countCalls = 0;
-    t1 = document.querySelector('.player-turn-1');
-    t2 = document.querySelector('.player-turn-2');
+    t1 = document.querySelector('.player-1');
+    t2 = document.querySelector('.player-2');
 
     if (gameState.type === 'multi') {
         turn = gameState.moves.player1 === "X" ? 1 : 2;

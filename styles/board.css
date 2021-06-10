@@ -5,6 +5,7 @@
     border-radius: 10px;
     min-width: 270px;
     min-height: 270px;
+    background-color : var(--borderColor);
 
     display : grid;
     grid-template-rows: 1fr 1fr 1fr;
@@ -12,9 +13,10 @@
 }
 
 .grid {
-    font-size: 5em;
+    font-size: 4.5rem;
     text-align: center;
-    font-family: 'Seymour One', sans-serif;
+    font-family: var(--boldFont);
+    background-color: var(--color2);
 
     display : flex;
     justify-content: center;
@@ -58,7 +60,7 @@ label[for="single-player"] {
     margin-right: auto;
     width : 80%;
     border-radius : 30px;
-    background-image: linear-gradient(to right, #fc0373, #a503fc);
+    background-image: linear-gradient(to right, #fc0373, #ebb434);
     color : white;
     padding : 5px;
 }
@@ -85,22 +87,75 @@ label[for="single-player"]:hover, label[for="multi-player"]:hover {
     transform : scale(1.2,1.2);
 }
 
+label[for="x"] {
+    color : var(--pink);
+    display : block;
+    background : white;
+    border-radius: 30px;
+    width : 80%;
+    margin : 10px auto 0 auto;
+    background-image: linear-gradient(to right, #fcb103, #fcf803);
+}
+
+label[for="o"] {
+    color : var(--yellow);
+    display : block;
+    background : white;
+    border-radius: 30px;
+    width : 80%;
+    margin: 0 auto 0 auto;
+    background-image: linear-gradient(to right, #fc03a9, #fc0356);
+}
+
 label[for="x"], label[for="o"] {
+    font-family: var(--boldFont);
     cursor : pointer;
-    font-size: 1.5rem;
+    font-size: 2rem;
+    transition : all 0.2s ease-in;
 }
 
 label[for="x"]:hover, label[for="o"]:hover {
-    color : blue;
+    transform : scale(1.2, 1.2);
+}
+
+.numgamesConfirm {
+    display : inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    box-shadow: 0 3px 5px grey;
+    outline : 0;
+    border : 0;
+    font-family: inherit;
+    font-size: 1.5rem;
+    cursor : pointer;
+    color : white;
+    width : 50px;
+    height : 50px;
+    background-image : linear-gradient(to bottom, var(--yellow), var(--red));
+    border-radius : 50%;
+
+    transition: all 0.2s ease;
+}
+
+.numgamesConfirm:active {
+    transform: translateY(5px);
+    box-shadow: none;
 }
 
 #numGames {
+    display: block;
+    margin: 0 auto 0 auto;
+    border-radius: 20px;
+    font-family: var(--boldFont);
     border : 10px solid var(--borderColor);
     padding : 5px;
+    outline : 0;
+    background-color: rgba(255,255,255,0.5);
 }
 
-.number-of-games button {
-    outline : 0;
+#numGames::-webkit-inner-spin-button {
+    display: none;
 }
 
 @media (max-width: 400px) {

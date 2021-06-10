@@ -4,6 +4,8 @@ const single = document.querySelector('label[for="single-player"]');
 const multi = document.querySelector('label[for="multi-player"]');
 const logo = document.querySelector('.logo');
 
+console.dir(single);
+
 let x = null;
 let o = null;
 let numGames = null;
@@ -13,12 +15,12 @@ logo.style.display = 'block';
 const chooseForm = (type) => { 
     return `
         <div class="choose-form">
-            Choose between X or O (for Player ${type === 'single' ? "" : '- 1'}) : <br>
+            Choose move (for ${type === 'single' ? "Human" : 'Player 1'}) : <br>
 
-            <label for="x"> X (makes first move) </label> <br>
+            <label for="x"> X </label> <br>
             <input type="checkbox" id="x">
 
-            <label for="o"> O (makes second move) </label>
+            <label for="o"> O </label>
             <input type="checkbox" id="o">
         </div>
     `
@@ -38,10 +40,11 @@ const startedBoard = `
 
 const numGamesConfirm = `
     <div class="number-of-games">
-        Select the Number of Games : <br>
-        <label for="numGames"> Choose Number of Games </label>
+        <label for="numGames"> Choose Number of Games : </label>
         <input type="number" id="numGames" min="1" value="1">
-        <button class="numgamesConfirm"> Next </button>
+        <button class="numgamesConfirm"> 
+            <i class="fas fa-arrow-right"></i>
+        </button>
     </div>
 `
 
@@ -50,13 +53,17 @@ const changeStartedDetails = (games, type) => {
         <div class="game-number">
             Game : 1 / ${games}
         </div>
-        <div class="scores">
-            <div class="player-score-1">${type === "single" ? "Computer" : "P1"} : 0</div>
-            <div class="player-score-2">${type === "single" ? "Player" : "P2"} : 0</div>
-        </div>
-        <div class="turn">
-            <div class="player-turn-1">${type === "single" ? "Computer" : "P1"}</div>
-            <div class="player-turn-2">${type === "single" ? "Player" : "P2"}</div>
+        <div class="player-cards">
+            <div class = "player-1">
+                <div class = "player-1-avatar"></div>
+                <div class="player-score-1">${type === "single" ? "Computer" : "P1"} : 0</div>
+                <div class="player-1-move"></div>
+            </div>
+            <div class = "player-2">
+                <div class = "player-2-avatar"></div>
+                <div class="player-score-2">${type === "single" ? "Player" : "P2"} : 0</div>
+                <div class="player-2-move"></div>
+            </div>
         </div>
     `
 }
@@ -135,6 +142,43 @@ const setNumGames = () => {
         board.innerHTML = startedBoard;
         details.innerHTML = changeStartedDetails(numGames.value, gameState.type);
         logo.style.display = 'none';
+
+        const p1 = document.querySelector('.player-1-avatar');
+        const p2 = document.querySelector('.player-2-avatar');
+        const m1 = document.querySelector('.player-1-move');
+        const m2 = document.querySelector('.player-2-move');
+
+        if (gameState.type === "single") {
+            p1.style.backgroundImage = "url('../assets/robot.png')";
+
+            if (gameState.moves.bot === "X") {
+                m1.innerHTML = "X";
+                m1.style.color = 'var(--pink)'; 
+                m2.innerHTML = "O";
+                m2.style.color = 'var(--yellow)'; 
+            } else {
+                m1.innerHTML = "O";
+                m1.style.color = 'var(--yellow)'; 
+                m2.innerHTML = "X";
+                m2.style.color = 'var(--pink)'; 
+            }
+
+        } else {
+            p1.style.backgroundImage = "url('../assets/human.png')";
+
+            if (gameState.moves.player1 === "X") {
+                m1.innerHTML = "X";
+                m1.style.color = 'var(--pink)'; 
+                m2.innerHTML = "O";
+                m2.style.color = 'var(--yellow)'; 
+            } else {
+                m1.innerHTML = "O";
+                m1.style.color = 'var(--yellow)'; 
+                m2.innerHTML = "X";
+                m2.style.color = 'var(--pink)'; 
+            }
+        }
+        p2.style.backgroundImage = "url('../assets/human.png')";
 
         gameState.numberOfGames = Number(numGames.value);
         startGame();

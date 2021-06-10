@@ -5,6 +5,9 @@
     --borderColor : #5423e8;  
     --yellow : #fae034;
     --pink : #f02b8d;
+    --red  : #fc5603;    
+    --handFont : 'Architects Daughter', cursive;
+    --boldFont : 'Seymour One', sans-serif;
 }
 
 * {
@@ -21,7 +24,7 @@ html {
 body {
     height : 100%;
     width : 100%;
-    font-family: 'Architects Daughter', cursive;
+    font-family: var(--handFont);
     display : flex;
     flex-flow : column;
     justify-content : center;
@@ -30,15 +33,27 @@ body {
     background-image: linear-gradient(to bottom right, var(--color1), var(--color2), var(--color3));
 }
 
-.reset-game {
-    font-size : 2rem;
-    margin-top : 10px;
-    border : 2px solid black;
-    padding-right: 10px;
-    padding-left: 10px;
-    border-radius : 10px;
+.reset-game-button {
+    display : inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    outline : 0;
+    border : 0;
+    font-family: inherit;
+    font-size: 1.5rem;
+    cursor : pointer;
+    color : white;
+    width : 50px;
+    height : 50px;
+    background-image : linear-gradient(to bottom, var(--yellow), var(--red));
+    border-radius : 50%;
+    margin-top: 20px;
+
+    transition: all 0.2s ease;
 }
 
-.reset-game-button:focus {
-    outline: 0;
+.reset-game-button:active {
+    transform: translateY(5px);
+    box-shadow: none;
 }
