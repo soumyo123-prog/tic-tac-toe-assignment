@@ -3,8 +3,7 @@ const board = document.querySelector('.board');
 const single = document.querySelector('label[for="single-player"]');
 const multi = document.querySelector('label[for="multi-player"]');
 const logo = document.querySelector('.logo');
-
-console.dir(single);
+const optionsForm = document.querySelector('.options-form');
 
 let x = null;
 let o = null;
@@ -14,8 +13,11 @@ logo.style.display = 'block';
 
 const chooseForm = (type) => { 
     return `
+        <button class="back-button">
+            <i class="fas fa-backward"></i>
+        </button>
         <div class="choose-form">
-            Choose move (for ${type === 'single' ? "Human" : 'Player 1'}) : <br>
+            ${type === 'multi' ? "Choose move for Player 1 : <br>" : ""}
 
             <label for="x"> X </label> <br>
             <input type="checkbox" id="x">
@@ -39,6 +41,9 @@ const startedBoard = `
 `
 
 const numGamesConfirm = `
+    <button class="back-button">
+        <i class="fas fa-backward"></i>
+    </button>
     <div class="number-of-games">
         <label for="numGames"> Choose Number of Games : </label>
         <input type="number" id="numGames" min="1" value="1">
@@ -78,7 +83,6 @@ single.onclick = () => {
         bot : 0,
         player : 0
     }
-
     setOnClickListenersMove();
 }
 
@@ -92,11 +96,34 @@ multi.onclick = () => {
         player1 : 0,
         player2 : 0
     }
-
     setOnClickListenersMove();
 }
 
+const goBack = (pageNum) => {
+    if (pageNum === 1) {
+        board.innerHTML = `
+        <div class="option-form">
+            <label for="single-player">Single Player</label><br>
+            <input type="checkbox" id="single-player">
+
+            <label for="multi-player"> Multi Player </label>
+            <input type="checkbox" id="multi-player">
+        </div>
+        `
+
+        gameState.type = null;
+        gameState.scores = null;
+        x = null;
+        y = null;
+    }
+}
+
 const setOnClickListenersMove = () => {
+    const backButton = document.querySelector('.back-button');
+    backButton.onclick = () => {
+        goBack(1);
+    }
+
     x.onclick = () => {
         board.innerHTML = numGamesConfirm;
         numGames = document.getElementById('numGames');
@@ -139,6 +166,11 @@ const setOnClickListenersMove = () => {
 const setNumGames = () => {
     const confirmNum = document.querySelector('.numgamesConfirm');
     confirmNum.onclick = () => {
+
+        board.style.display = 'grid';
+        board.style.gridTemplateRows = '1fr 1fr 1fr';
+        board.style.gridTemplateColumns = '1fr 1fr 1fr';
+
         board.innerHTML = startedBoard;
         details.innerHTML = changeStartedDetails(numGames.value, gameState.type);
         logo.style.display = 'none';

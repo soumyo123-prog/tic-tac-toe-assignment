@@ -6,44 +6,67 @@
     min-width: 270px;
     min-height: 270px;
     background-color : var(--borderColor);
+    position: relative;
 
-    display : grid;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-template-columns: 1fr 1fr 1fr;
+    display : flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
+
+.back-button {
+    position: absolute;
+    top : 0;
+    left : 0;
+
+    display : flex;
+    height : 50px;
+    width : 50px;
+    border-radius: 50%;
+    font-size : 1.5rem;
+    align-items: center;
+    justify-content: center;
+    border : 0;
+    outline : 0;
+    background-image: linear-gradient(to bottom, var(--yellow), var(--red));
+    cursor : pointer;
+    color : var(--color1);
+}
+
+/* .back-button-invisible {
+    transform: translateX(-100%);
+    opacity : 0;
+}
+
+.back-button-visible {
+    transform: translateX(0);
+    opacity: 1;
+} */
 
 .grid {
     font-size: 4.5rem;
     text-align: center;
     font-family: var(--boldFont);
     background-color: var(--color2);
+    border-radius: 10px;
 
     display : flex;
     justify-content: center;
     align-items: center;
-}
 
-.grid-1, .grid-2, .grid-4, .grid-5 {
-    border-right: 10px solid var(--borderColor);
-    border-bottom: 10px solid var(--borderColor);
-}
-
-.grid-3, .grid-6 {
-    border-bottom: 10px solid var(--borderColor);
-}
-
-.grid-7, .grid-8 {
-    border-right : 10px solid var(--borderColor);
+    place-self: center;
+    width : 90%;
+    height : 90%;
 }
 
 .option-form, .choose-form, .number-of-games, .final-winner {
-    grid-row-start: 2;
-    grid-row-end:3;
-    grid-column-start: 1;
-    grid-column-end: 4;
-
-    font-size: 1.2rem;
+    width : 100%;
+    font-size: 1.3rem;
     text-align: center;
+}
+
+.choose-form {
+    font-family: 'Open Sans', sans-serif;
 }
 
 .final-winner {
@@ -156,6 +179,20 @@ label[for="x"]:hover, label[for="o"]:hover {
 
 #numGames::-webkit-inner-spin-button {
     display: none;
+}
+
+.hover-X::after {
+    flex : 1;
+    content: "X";
+    color : var(--pink);
+    opacity: 0.6;
+}
+
+.hover-O::after {
+    flex : 1;
+    content: "O";
+    color : var(--yellow);
+    opacity: 0.5;
 }
 
 @media (max-width: 400px) {

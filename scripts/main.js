@@ -16,14 +16,14 @@ let gameState = {
 }
 
 resetButton.onclick = () => {
-    reset();
-}
-
-const reset = () => {
     window.location.reload();
 }
 
 const finalWinnerText = (winner) => {
+    board.style.display = 'flex';
+    board.style.justifyContent = 'center';
+    board.style.allignItems = 'center';
+
     if ((winner) === 0) {
         return `
             <div class="final-winner">
@@ -62,7 +62,7 @@ const finalWinnerFinder = () => {
     }  
     
     setTimeout(() => {
-        reset();
+        resetGame();
     }, 2000);
 }
 
@@ -71,7 +71,8 @@ const changeStyleOnWin = (player, indexes) => {
 
     for (let i=0; i<3; i++) {
         currIndex = 3*indexes[i].first + indexes[i].second;
-        grids[currIndex].style.color = "blue";
+        grids[currIndex].style.color = "white";
+        grids[currIndex].style.backgroundColor = 'var(--green)';
     }
 
     const s1 = document.querySelector('.player-score-1');
@@ -90,19 +91,12 @@ const changeStyleOnWin = (player, indexes) => {
     }
 
     setTimeout(() => {
-        gameOver();
+        window.location.reload();
     }, 1000);
 }
 
 const gameOver = () => {
     const gameNumber = document.querySelector('.game-number');
-
-    layout = [["","",""],["","",""],["","",""]];
-
-    for (let i=0; i<9; i++) {
-        grids[i].innerHTML = "";
-        grids[i].style.color = "black";
-    }
 
     gameState.gamesCompleted += 1;
     if (gameState.gamesCompleted === gameState.numberOfGames) {
@@ -126,9 +120,16 @@ const changeTurn = () => {
 }
 
 const startGame = () => {
-    moves = 0, countCalls = 0;
+    moves = 0;
     t1 = document.querySelector('.player-1');
     t2 = document.querySelector('.player-2');
+
+    layout = [["","",""],["","",""],["","",""]];
+
+    for (let i=0; i<9; i++) {
+        grids[i].innerHTML = "";
+        grids[i].style.color = "black";
+    }
 
     if (gameState.type === 'multi') {
         turn = gameState.moves.player1 === "X" ? 1 : 2;
@@ -144,8 +145,10 @@ const startGame = () => {
         if (turn === 1) {
             const {row,col} = findBestMove(gameState.moves);
             layout[row][col] = "X";
+
             grids[3*row + col].innerHTML = "X";
             grids[3*row + col].style.color = 'var(--pink)';
+
             turn = 2;
             moves += 1;
         }
@@ -153,6 +156,7 @@ const startGame = () => {
         changeTurn();
         setOnClickListenersSingle();
     }
+    setOnHoverHandlers();
 }
 
 const setOnClickListenersMulti = () => {
@@ -176,6 +180,9 @@ const setOnClickListenersMulti = () => {
                 layout[Math.floor(i/3)][i%3] = fill;
                 e.target.innerHTML = fill;
 
+                e.target.classList.remove('hover-X');
+                e.target.classList.remove('hover-O');
+
                 const currTurn = turn === 1 ? 2 : 1;
                 if (currTurn === 1) {
                     if (gameState.moves.player1 === "O") {
@@ -193,6 +200,7 @@ const setOnClickListenersMulti = () => {
 
                 const winObj = winDetector(Math.floor(i/3), i%3, layout);
                 if (winObj.won) {
+                    removeEventListenerMulti();
                     changeStyleOnWin(currTurn, winObj.indexes);
                 } else {
                     changeTurn();
@@ -206,12 +214,19 @@ const setOnClickListenersMulti = () => {
     }
 }
 
+const removeEventListenerMulti = () => {
+    for (let i=0; i<9; i++) {
+        grids[i].onclick = null;
+    }
+}
+
 const callBot = () => {
     let row = null, col = null;
 
     const values = findBestMove(gameState.moves);
     row = values.row, col = values.col;
     layout[row][col] = gameState.moves.bot;
+
     grids[row*3 + col].innerHTML = `<span>${gameState.moves.bot}</span>`;
 
     if (gameState.moves.bot === "X") {
@@ -251,6 +266,9 @@ const setOnClickListenersSingle = () => {
                 e.target.innerHTML = `<span>${gameState.moves.player}</span>`;
                 moves += 1;
 
+                e.target.classList.remove('hover-X');
+                e.target.classList.remove('hover-O');
+
                 if (gameState.moves.player === "X") {
                     e.target.style.color = 'var(--pink)';
                 } else {
@@ -274,6 +292,50 @@ const setOnClickListenersSingle = () => {
                     }
                 }
             }
+        }
+    }
+}
+
+const checkMovesAndAssignClass = (e) => {
+    if (gameState.type === 'single') {
+        if (turn === 2) {
+            if (gameState.moves.player === "X") {
+                e.classList.add('hover-X');
+            } else {
+                e.classList.add('hover-O');
+            }
+
+        }
+        
+    } else {
+        if (turn === 1) {
+            if (gameState.moves.player1 === "X") {
+                e.classList.add('hover-X');
+            } else {
+                e.classList.add('hover-O');
+            }
+
+        } else {
+            if (gameState.moves.player2 === "X") {
+                e.classList.add('hover-X');
+            } else {
+                e.classList.add('hover-O');
+            }
+        }
+    }
+}
+
+const setOnHoverHandlers = () => {
+    for (let i=0; i<9; i++) {
+        grids[i].onmouseenter = (e) => {
+            if (e.target.innerHTML === "") {
+                checkMovesAndAssignClass(e.target);
+            } 
+        }
+
+        grids[i].onmouseleave = (e) => {
+            e.target.classList.remove('hover-X');
+            e.target.classList.remove('hover-O');
         }
     }
 }
