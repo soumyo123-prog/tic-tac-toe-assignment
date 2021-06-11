@@ -1,31 +1,199 @@
 const details = document.querySelector('.details');
 const board = document.querySelector('.board');
-const single = document.querySelector('label[for="single-player"]');
-const multi = document.querySelector('label[for="multi-player"]');
 const logo = document.querySelector('.logo');
-const optionsForm = document.querySelector('.options-form');
-
-let x = null;
-let o = null;
-let numGames = null;
 
 logo.style.display = 'block';
 
-const chooseForm = (type) => { 
-    return `
-        <button class="back-button">
-            <i class="fas fa-backward"></i>
-        </button>
-        <div class="choose-form">
-            ${type === 'multi' ? "Choose move for Player 1 : <br>" : ""}
+const clearBoard = () => {
+    while(board.firstChild) {
+        board.removeChild(board.firstChild);
+    }
+}
 
-            <label for="x"> X </label> <br>
-            <input type="checkbox" id="x">
+const addChildren = (...args) => {
+    for (let i=1; i<args.length; i++) {
+        args[0].appendChild(args[i]);
+    }
+}
 
-            <label for="o"> O </label>
-            <input type="checkbox" id="o">
-        </div>
-    `
+const goBack = (pageNum) => {
+    if (pageNum === 1) {
+        createOptionsForm();
+
+        gameState.type = null;
+        gameState.scores = null;
+        x = null;
+        y = null;
+    } else {
+        createChooseForm();
+        gameState.moves = null;
+    }
+}
+
+const onChooseSingle = () => {
+    createChooseForm("single");
+
+    gameState.type = "single";
+    gameState.scores = {
+        bot : 0,
+        player : 0
+    }
+}
+
+const onChooseMulti = () => {
+    createChooseForm("multi");
+
+    gameState.type = "multi";
+    gameState.scores = {
+        player1 : 0,
+        player2 : 0
+    }
+}
+
+const onChooseX = () => {
+    createNumForm();
+    if (gameState.type === "single") {
+        gameState.moves = {
+            bot : "O",
+            player : "X"
+        }
+    } else {
+        gameState.moves = {
+            player1 : "X",
+            player2 : "O"
+        }
+    }
+}
+
+const onChooseO = () => {
+    createNumForm();
+    if (gameState.type === "single") {
+        gameState.moves = {
+            bot : "X",
+            player : "O"
+        }
+    } else {
+        gameState.moves = {
+            player1 : "O",
+            player2 : "X"
+        }
+    }
+}
+
+const onChooseNumConfirm = () => {
+    const numGames = document.querySelector('#numGames');
+
+    board.style.display = 'grid';
+    board.style.gridTemplateRows = '1fr 1fr 1fr';
+    board.style.gridTemplateColumns = '1fr 1fr 1fr';
+
+    board.innerHTML = startedBoard;
+    details.innerHTML = changeStartedDetails(numGames.value, gameState.type);
+    logo.style.display = 'none';
+
+    const p1 = document.querySelector('.player-1-avatar');
+    const p2 = document.querySelector('.player-2-avatar');
+    const m1 = document.querySelector('.player-1-move');
+    const m2 = document.querySelector('.player-2-move');
+
+    if (gameState.type === "single") {
+        p1.style.backgroundImage = "url('/assets/robot.png')";
+
+        if (gameState.moves.bot === "X") {
+            m1.innerHTML = "X";
+            m1.style.color = 'var(--pink)'; 
+            m2.innerHTML = "O";
+            m2.style.color = 'var(--yellow)'; 
+        } else {
+            m1.innerHTML = "O";
+            m1.style.color = 'var(--yellow)'; 
+            m2.innerHTML = "X";
+            m2.style.color = 'var(--pink)'; 
+        }
+
+    } else {
+        p1.style.backgroundImage = "url('/assets/human.png')";
+
+        if (gameState.moves.player1 === "X") {
+            m1.innerHTML = "X";
+            m1.style.color = 'var(--pink)'; 
+            m2.innerHTML = "O";
+            m2.style.color = 'var(--yellow)'; 
+        } else {
+            m1.innerHTML = "O";
+            m1.style.color = 'var(--yellow)'; 
+            m2.innerHTML = "X";
+            m2.style.color = 'var(--pink)'; 
+        }
+    }
+    p2.style.backgroundImage = "url('/assets/human.png')";
+
+    gameState.numberOfGames = Number(numGames.value);
+    startGame();
+}
+
+const createOptionsForm = () => {
+    clearBoard();
+
+    const optionForm = document.createElement('div');
+    optionForm.className = 'option-form';
+
+    const singleLabel = document.createElement('label');
+    singleLabel.setAttribute('for', 'single-player');
+    singleLabel.innerHTML = 'Single Player'
+    const br = document.createElement('br');
+    const singleInput = document.createElement('input');
+    singleInput.setAttribute('type', 'checkbox');
+    singleInput.setAttribute('id', 'single-player');
+    singleLabel.onclick = onChooseSingle;
+
+    const multiLabel = document.createElement('label');
+    multiLabel.setAttribute('for', 'multi-player');
+    multiLabel.innerHTML = 'Multi Player'
+    const multiInput = document.createElement('input');
+    multiInput.setAttribute('type', 'checkbox');
+    multiInput.setAttribute('id', 'multi-player');
+    multiLabel.onclick = onChooseMulti;
+
+    addChildren(optionForm, singleLabel, br, singleInput, multiLabel, multiInput);
+    board.appendChild(optionForm);
+}
+createOptionsForm();
+
+const createChooseForm = (type) => {
+    clearBoard();
+
+    const backButton = document.createElement('button');
+    backButton.className = 'back-button';
+    backButton.innerHTML = `<i class="fas fa-backward"></i>`;
+    backButton.onclick = () => {
+        goBack(1);
+    }
+
+    const chooseForm = document.createElement('div');
+    chooseForm.className = 'choose-form';
+    chooseForm.innerHTML = `${type === 'multi' ? "Choose move for Player 1 : <br>" : ""}`;
+    
+    const labelX = document.createElement('label');
+    labelX.setAttribute('for', 'x');
+    labelX.textContent = 'X';
+    labelX.onclick = onChooseX;
+    const br = document.createElement('br');
+    const inputX = document.createElement('input');
+    inputX.type = 'checkbox';
+    inputX.id = 'x';
+
+    const labelO = document.createElement('label');
+    labelO.setAttribute('for', 'o');
+    labelO.textContent = 'O';
+    labelO.onclick = onChooseO;
+    const inputO = document.createElement('input');
+    inputO.type = 'checkbox';
+    inputO.id = 'o';
+
+    addChildren(chooseForm, labelX, br, inputX, labelO, inputO);
+    board.appendChild(backButton);
+    board.appendChild(chooseForm);
 }
 
 const startedBoard = `
@@ -40,18 +208,36 @@ const startedBoard = `
     <div class="grid grid-9"></div>
 `
 
-const numGamesConfirm = `
-    <button class="back-button">
-        <i class="fas fa-backward"></i>
-    </button>
-    <div class="number-of-games">
-        <label for="numGames"> Choose Number of Games : </label>
-        <input type="number" id="numGames" min="1" value="1">
-        <button class="numgamesConfirm"> 
-            <i class="fas fa-arrow-right"></i>
-        </button>
-    </div>
-`
+const createNumForm = () => {
+    clearBoard();
+
+    const backButton = document.createElement('button');
+    backButton.className = 'back-button';
+    backButton.innerHTML = `<i class="fas fa-backward"></i>`;
+    backButton.onclick = () => {
+        goBack(2);
+    }
+
+    const numGames = document.createElement('div');
+    numGames.className = 'number-of-games';
+
+    const labelNum = document.createElement('label');
+    labelNum.setAttribute('for', 'numGames');
+    labelNum.textContent = "Choose Number of Games :";
+    const inputNum = document.createElement('input');
+    inputNum.id = 'numGames';
+    inputNum.type = 'number';
+    inputNum.min = 1;
+    inputNum.value = 1;
+    const numConfirm = document.createElement('button');
+    numConfirm.className = 'numgamesConfirm';
+    numConfirm.innerHTML = '<i class="fas fa-arrow-right"></i>';
+    numConfirm.onclick = onChooseNumConfirm;
+
+    addChildren(numGames, labelNum, inputNum, numConfirm);
+    board.appendChild(backButton);
+    board.appendChild(numGames);
+}
 
 const changeStartedDetails = (games, type) => {
     return `
@@ -71,148 +257,4 @@ const changeStartedDetails = (games, type) => {
             </div>
         </div>
     `
-}
-
-single.onclick = () => {
-    board.innerHTML = chooseForm("single");
-    x = document.querySelector('label[for="x"]');
-    y = document.querySelector('label[for="o"]');
-
-    gameState.type = "single";
-    gameState.scores = {
-        bot : 0,
-        player : 0
-    }
-    setOnClickListenersMove();
-}
-
-multi.onclick = () => {
-    board.innerHTML = chooseForm("multi");
-    x = document.querySelector('label[for="x"]');
-    y = document.querySelector('label[for="o"]');
-
-    gameState.type = "multi";
-    gameState.scores = {
-        player1 : 0,
-        player2 : 0
-    }
-    setOnClickListenersMove();
-}
-
-const goBack = (pageNum) => {
-    if (pageNum === 1) {
-        board.innerHTML = `
-        <div class="option-form">
-            <label for="single-player">Single Player</label><br>
-            <input type="checkbox" id="single-player">
-
-            <label for="multi-player"> Multi Player </label>
-            <input type="checkbox" id="multi-player">
-        </div>
-        `
-
-        gameState.type = null;
-        gameState.scores = null;
-        x = null;
-        y = null;
-    }
-}
-
-const setOnClickListenersMove = () => {
-    const backButton = document.querySelector('.back-button');
-    backButton.onclick = () => {
-        goBack(1);
-    }
-
-    x.onclick = () => {
-        board.innerHTML = numGamesConfirm;
-        numGames = document.getElementById('numGames');
-
-        if (gameState.type === "single") {
-            gameState.moves = {
-                bot : "O",
-                player : "X"
-            }
-        } else {
-            gameState.moves = {
-                player1 : "X",
-                player2 : "O"
-            }
-        }
-
-        setNumGames();
-    }
-    
-    y.onclick = () => {
-        board.innerHTML = numGamesConfirm;
-        numGames = document.getElementById('numGames');
-
-        if (gameState.type === "single") {
-            gameState.moves = {
-                bot : "X",
-                player : "O"
-            }
-        } else {
-            gameState.moves = {
-                player1 : "O",
-                player2 : "X"
-            }
-        }
-
-        setNumGames();
-    }
-}
-
-const setNumGames = () => {
-    const confirmNum = document.querySelector('.numgamesConfirm');
-    confirmNum.onclick = () => {
-
-        board.style.display = 'grid';
-        board.style.gridTemplateRows = '1fr 1fr 1fr';
-        board.style.gridTemplateColumns = '1fr 1fr 1fr';
-
-        board.innerHTML = startedBoard;
-        details.innerHTML = changeStartedDetails(numGames.value, gameState.type);
-        logo.style.display = 'none';
-
-        const p1 = document.querySelector('.player-1-avatar');
-        const p2 = document.querySelector('.player-2-avatar');
-        const m1 = document.querySelector('.player-1-move');
-        const m2 = document.querySelector('.player-2-move');
-
-        if (gameState.type === "single") {
-            p1.style.backgroundImage = "url('/assets/robot.png')";
-
-            if (gameState.moves.bot === "X") {
-                m1.innerHTML = "X";
-                m1.style.color = 'var(--pink)'; 
-                m2.innerHTML = "O";
-                m2.style.color = 'var(--yellow)'; 
-            } else {
-                m1.innerHTML = "O";
-                m1.style.color = 'var(--yellow)'; 
-                m2.innerHTML = "X";
-                m2.style.color = 'var(--pink)'; 
-            }
-
-        } else {
-            p1.style.backgroundImage = "url('/assets/human.png')";
-
-            if (gameState.moves.player1 === "X") {
-                m1.innerHTML = "X";
-                m1.style.color = 'var(--pink)'; 
-                m2.innerHTML = "O";
-                m2.style.color = 'var(--yellow)'; 
-            } else {
-                m1.innerHTML = "O";
-                m1.style.color = 'var(--yellow)'; 
-                m2.innerHTML = "X";
-                m2.style.color = 'var(--pink)'; 
-            }
-        }
-        p2.style.backgroundImage = "url('/assets/human.png')";
-
-        gameState.numberOfGames = Number(numGames.value);
-        startGame();
-    }
 }
