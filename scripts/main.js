@@ -16,7 +16,7 @@ let gameState = {
 }
 
 const reset = () => {
-    window.location.reload();
+    resetGame();
 }
 
 resetButton.onclick = () => {
@@ -114,12 +114,21 @@ const gameOver = () => {
 }
 
 const changeTurn = () => {
+    const p1 = document.querySelector('.player-1-turn');
+    const p2 = document.querySelector('.player-2-turn');
+    const move1 = document.querySelector('.player-1');
+    const move2 = document.querySelector('.player-2');
+
     if (turn === 1) {
-        t1.style.backgroundColor = 'var(--color3)';
-        t2.style.backgroundColor = 'var(--color1)';
+        p1.style.display = 'block';
+        p2.style.display = 'none';
+        move1.classList.add('moveCard');
+        move2.classList.remove('moveCard');
     } else {
-        t2.style.backgroundColor = 'var(--color3)';
-        t1.style.backgroundColor = 'var(--color1)';
+        p1.style.display = 'none';
+        p2.style.display = 'block';
+        move1.classList.remove('moveCard');
+        move2.classList.add('moveCard');
     }
 }
 
@@ -166,6 +175,7 @@ const startGame = () => {
 const setOnClickListenersMulti = () => {
     for(let i=0; i<9; i++) {
         grids[i].onclick = (e) => {
+            console.dir(e.target.getBoundingClientRect());
             if (e.target.innerHTML === "") {
                 
                 let fill = null;

@@ -57,7 +57,7 @@ const findScore = (moves) => {
 const miniMax = (depth, maximizerTurn, moves) => {
     const score = findScore(moves);
     if (score === 10 || score === -10) {
-        return score;
+        return score === 10 ? score-depth : score+depth;
     }
     if (isNotPlayable()) {
         return 0;

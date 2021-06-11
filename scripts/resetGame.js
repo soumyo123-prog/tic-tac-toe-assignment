@@ -1,17 +1,9 @@
 const resetGame = () => {
-    const optionsForm = `
-        <div class="option-form">
-            <label for="single-player">Single Player</label><br>
-            <input type="checkbox" id="single-player">
-
-            <label for="multi-player"> Multi Player </label>
-            <input type="checkbox" id="multi-player">
-        </div>
-    `
-
+    board.style.display = 'flex';
+    board.style.justifyContent = 'center';
+    board.style.allignItems = 'center';
     logo.style.display = 'block';
     details.innerHTML = "";
-    board.innerHTML = optionsForm;
     
     gameState = {
         numberOfGames : 1,
@@ -21,9 +13,10 @@ const resetGame = () => {
         moves : null
     }
 
-    turn = null, initialTurn = null;
-    t1 = null, t2 = null;
-    x = null, o = null;
+    turn = null;
+    initialTurn = null;
+    t1 = null; 
+    t2 = null;
 
-    loadText();
+    createOptionsForm();
 }

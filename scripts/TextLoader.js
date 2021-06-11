@@ -25,13 +25,13 @@ const goBack = (pageNum) => {
         x = null;
         y = null;
     } else {
-        createChooseForm();
+        createChooseForm(gameState.type, false);
         gameState.moves = null;
     }
 }
 
 const onChooseSingle = () => {
-    createChooseForm("single");
+    createChooseForm("single", true);
 
     gameState.type = "single";
     gameState.scores = {
@@ -41,7 +41,7 @@ const onChooseSingle = () => {
 }
 
 const onChooseMulti = () => {
-    createChooseForm("multi");
+    createChooseForm("multi", true);
 
     gameState.type = "multi";
     gameState.scores = {
@@ -81,55 +81,60 @@ const onChooseO = () => {
 }
 
 const onChooseNumConfirm = () => {
-    const numGames = document.querySelector('#numGames');
+    const numForm = document.querySelector('.number-of-games');
+    numForm.classList.add('fade');
 
-    board.style.display = 'grid';
-    board.style.gridTemplateRows = '1fr 1fr 1fr';
-    board.style.gridTemplateColumns = '1fr 1fr 1fr';
+    setTimeout(() => {
+        const numGames = document.querySelector('#numGames');
 
-    board.innerHTML = startedBoard;
-    details.innerHTML = changeStartedDetails(numGames.value, gameState.type);
-    logo.style.display = 'none';
+        board.style.display = 'grid';
+        board.style.gridTemplateRows = '1fr 1fr 1fr';
+        board.style.gridTemplateColumns = '1fr 1fr 1fr';
 
-    const p1 = document.querySelector('.player-1-avatar');
-    const p2 = document.querySelector('.player-2-avatar');
-    const m1 = document.querySelector('.player-1-move');
-    const m2 = document.querySelector('.player-2-move');
+        board.innerHTML = startedBoard;
+        details.innerHTML = changeStartedDetails(numGames.value, gameState.type);
+        logo.style.display = 'none';
 
-    if (gameState.type === "single") {
-        p1.style.backgroundImage = "url('/assets/robot.png')";
+        const p1 = document.querySelector('.player-1-avatar');
+        const p2 = document.querySelector('.player-2-avatar');
+        const m1 = document.querySelector('.player-1-move');
+        const m2 = document.querySelector('.player-2-move');
 
-        if (gameState.moves.bot === "X") {
-            m1.innerHTML = "X";
-            m1.style.color = 'var(--pink)'; 
-            m2.innerHTML = "O";
-            m2.style.color = 'var(--yellow)'; 
+        if (gameState.type === "single") {
+            p1.style.backgroundImage = "url('/assets/robot.png')";
+
+            if (gameState.moves.bot === "X") {
+                m1.innerHTML = "X";
+                m1.style.color = 'var(--pink)'; 
+                m2.innerHTML = "O";
+                m2.style.color = 'var(--yellow)'; 
+            } else {
+                m1.innerHTML = "O";
+                m1.style.color = 'var(--yellow)'; 
+                m2.innerHTML = "X";
+                m2.style.color = 'var(--pink)'; 
+            }
+
         } else {
-            m1.innerHTML = "O";
-            m1.style.color = 'var(--yellow)'; 
-            m2.innerHTML = "X";
-            m2.style.color = 'var(--pink)'; 
+            p1.style.backgroundImage = "url('/assets/human.png')";
+
+            if (gameState.moves.player1 === "X") {
+                m1.innerHTML = "X";
+                m1.style.color = 'var(--pink)'; 
+                m2.innerHTML = "O";
+                m2.style.color = 'var(--yellow)'; 
+            } else {
+                m1.innerHTML = "O";
+                m1.style.color = 'var(--yellow)'; 
+                m2.innerHTML = "X";
+                m2.style.color = 'var(--pink)'; 
+            }
         }
+        p2.style.backgroundImage = "url('/assets/human.png')";
 
-    } else {
-        p1.style.backgroundImage = "url('/assets/human.png')";
-
-        if (gameState.moves.player1 === "X") {
-            m1.innerHTML = "X";
-            m1.style.color = 'var(--pink)'; 
-            m2.innerHTML = "O";
-            m2.style.color = 'var(--yellow)'; 
-        } else {
-            m1.innerHTML = "O";
-            m1.style.color = 'var(--yellow)'; 
-            m2.innerHTML = "X";
-            m2.style.color = 'var(--pink)'; 
-        }
-    }
-    p2.style.backgroundImage = "url('/assets/human.png')";
-
-    gameState.numberOfGames = Number(numGames.value);
-    startGame();
+        gameState.numberOfGames = Number(numGames.value);
+        startGame();
+    }, 250);
 }
 
 const createOptionsForm = () => {
@@ -160,7 +165,7 @@ const createOptionsForm = () => {
 }
 createOptionsForm();
 
-const createChooseForm = (type) => {
+const createChooseFormHelper = (type) => {
     clearBoard();
 
     const backButton = document.createElement('button');
@@ -196,6 +201,20 @@ const createChooseForm = (type) => {
     board.appendChild(chooseForm);
 }
 
+const createChooseForm = (type, isForwarding) => {
+    if (isForwarding) {
+        const optionsForm = document.querySelector('.option-form');
+        optionsForm.classList.add('fade');
+
+        setTimeout(() => {
+            createChooseFormHelper(type);
+        }, 250);
+
+    } else {
+        createChooseFormHelper(type);
+    }
+}
+
 const startedBoard = `
     <div class="grid grid-1"></div>
     <div class="grid grid-2"></div>
@@ -209,34 +228,39 @@ const startedBoard = `
 `
 
 const createNumForm = () => {
-    clearBoard();
+    const chooseForm = document.querySelector('.choose-form');
+    chooseForm.classList.add('fade');
 
-    const backButton = document.createElement('button');
-    backButton.className = 'back-button';
-    backButton.innerHTML = `<i class="fas fa-backward"></i>`;
-    backButton.onclick = () => {
-        goBack(2);
-    }
+    setTimeout(() => {
+        clearBoard();
 
-    const numGames = document.createElement('div');
-    numGames.className = 'number-of-games';
+        const backButton = document.createElement('button');
+        backButton.className = 'back-button';
+        backButton.innerHTML = `<i class="fas fa-backward"></i>`;
+        backButton.onclick = () => {
+            goBack(2);
+        }
 
-    const labelNum = document.createElement('label');
-    labelNum.setAttribute('for', 'numGames');
-    labelNum.textContent = "Choose Number of Games :";
-    const inputNum = document.createElement('input');
-    inputNum.id = 'numGames';
-    inputNum.type = 'number';
-    inputNum.min = 1;
-    inputNum.value = 1;
-    const numConfirm = document.createElement('button');
-    numConfirm.className = 'numgamesConfirm';
-    numConfirm.innerHTML = '<i class="fas fa-arrow-right"></i>';
-    numConfirm.onclick = onChooseNumConfirm;
+        const numGames = document.createElement('div');
+        numGames.className = 'number-of-games';
 
-    addChildren(numGames, labelNum, inputNum, numConfirm);
-    board.appendChild(backButton);
-    board.appendChild(numGames);
+        const labelNum = document.createElement('label');
+        labelNum.setAttribute('for', 'numGames');
+        labelNum.textContent = "Choose Number of Games :";
+        const inputNum = document.createElement('input');
+        inputNum.id = 'numGames';
+        inputNum.type = 'number';
+        inputNum.min = 1;
+        inputNum.value = 1;
+        const numConfirm = document.createElement('button');
+        numConfirm.className = 'numgamesConfirm';
+        numConfirm.innerHTML = '<i class="fas fa-arrow-right"></i>';
+        numConfirm.onclick = onChooseNumConfirm;
+
+        addChildren(numGames, labelNum, inputNum, numConfirm);
+        board.appendChild(backButton);
+        board.appendChild(numGames);
+    }, 250);
 }
 
 const changeStartedDetails = (games, type) => {
@@ -249,11 +273,13 @@ const changeStartedDetails = (games, type) => {
                 <div class = "player-1-avatar"></div>
                 <div class="player-score-1">${type === "single" ? "Computer" : "P1"} : 0</div>
                 <div class="player-1-move"></div>
+                <div class="player-1-turn">${type === "single" ? "Computer's Turn" : "P1's Turn"}</div>
             </div>
             <div class = "player-2">
                 <div class = "player-2-avatar"></div>
                 <div class="player-score-2">${type === "single" ? "Player" : "P2"} : 0</div>
                 <div class="player-2-move"></div>
+                <div class="player-2-turn">${type === "single" ? "Player's Turn" : "P2's Turn"}</div>
             </div>
         </div>
     `

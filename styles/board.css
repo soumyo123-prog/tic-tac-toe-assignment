@@ -1,12 +1,17 @@
+.fade {
+    opacity : 0;
+}
+
 .board {
-    height : 400px;
-    width : 400px;
+    height : clamp(270px,90vw,400px);
+    width : clamp(270px,90vw,400px);
     border : 10px solid var(--borderColor);
     border-radius: 10px;
-    min-width: 270px;
-    min-height: 270px;
     background-color : var(--borderColor);
     position: relative;
+    overflow: auto;
+    box-shadow: 
+                0px 6px 20px rgba(0,0,0,0.5);
 
     display : flex;
     flex-direction: column;
@@ -20,10 +25,10 @@
     left : 0;
 
     display : flex;
-    height : 50px;
-    width : 50px;
+    height : 40px;
+    width : 40px;
     border-radius: 50%;
-    font-size : 1.5rem;
+    font-size : 1.3rem;
     align-items: center;
     justify-content: center;
     border : 0;
@@ -31,17 +36,15 @@
     background-image: linear-gradient(to bottom, var(--yellow), var(--red));
     cursor : pointer;
     color : var(--color1);
+
+    box-shadow : 3px 3px 10px rgba(0,0,0,0.5);
+    transition : all 0.2s linear;
 }
 
-/* .back-button-invisible {
-    transform: translateX(-100%);
-    opacity : 0;
+.back-button:active {
+    box-shadow : none;
+    transform: translate(3px, 3px);
 }
-
-.back-button-visible {
-    transform: translateX(0);
-    opacity: 1;
-} */
 
 .grid {
     font-size: 4.5rem;
@@ -61,12 +64,10 @@
 
 .option-form, .choose-form, .number-of-games, .final-winner {
     width : 100%;
-    font-size: 1.3rem;
+    font-size: min(6vw, 1.3rem);
     text-align: center;
-}
-
-.choose-form {
-    font-family: 'Open Sans', sans-serif;
+    transition: all 0.25s linear;
+    animation : deFade 0.25s linear;
 }
 
 .final-winner {
@@ -78,32 +79,29 @@
 }
 
 label[for="single-player"] {
-    display : block;
-    margin-left: auto;
-    margin-right: auto;
-    width : 80%;
-    border-radius : 30px;
     background-image: linear-gradient(to right, #fc0373, #ebb434);
     color : white;
-    padding : 5px;
 }
 
 label[for="multi-player"] {
-    display : block;
-    margin-left: auto;
-    margin-right: auto;
-    width : 80%;
-    border-radius : 30px;
     background-image: linear-gradient(to right, #fc9003, #d7fc03);
-    color : black;
-    padding : 5px;
+    color : black;   
 }
 
 
 label[for="single-player"], label[for="multi-player"] {
+    width : 80%;
+    border-radius : 30px;
+    display : block;
+    margin-left: auto;
+    margin-right: auto;
     cursor : pointer;
     font-size: 1.5rem;
+    padding : 5px;
     transition: all 0.2s ease-in;
+    
+    box-shadow: 
+                0 3px 20px rgba(0,0,0,0.5);
 }
 
 label[for="single-player"]:hover, label[for="multi-player"]:hover {
@@ -112,20 +110,12 @@ label[for="single-player"]:hover, label[for="multi-player"]:hover {
 
 label[for="x"] {
     color : var(--pink);
-    display : block;
-    background : white;
-    border-radius: 30px;
-    width : 80%;
     margin : 10px auto 0 auto;
     background-image: linear-gradient(to right, #fcb103, #fcf803);
 }
 
 label[for="o"] {
     color : var(--yellow);
-    display : block;
-    background : white;
-    border-radius: 30px;
-    width : 80%;
     margin: 0 auto 0 auto;
     background-image: linear-gradient(to right, #fc03a9, #fc0356);
 }
@@ -134,6 +124,12 @@ label[for="x"], label[for="o"] {
     font-family: var(--boldFont);
     cursor : pointer;
     font-size: 2rem;
+    display : block;
+    border-radius: 30px;
+    width : 80%;
+    box-shadow: 
+                0 3px 20px rgba(0,0,0,0.5);
+
     transition : all 0.2s ease-in;
 }
 
@@ -146,15 +142,15 @@ label[for="x"]:hover, label[for="o"]:hover {
     justify-content: center;
     align-items: center;
 
-    box-shadow: 0 3px 5px grey;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.5);
     outline : 0;
     border : 0;
     font-family: inherit;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     cursor : pointer;
-    color : white;
-    width : 50px;
-    height : 50px;
+    color : var(--borderColor);
+    width : 40px;
+    height : 40px;
     background-image : linear-gradient(to bottom, var(--yellow), var(--red));
     border-radius : 50%;
 
@@ -175,6 +171,8 @@ label[for="x"]:hover, label[for="o"]:hover {
     padding : 5px;
     outline : 0;
     background-color: rgba(255,255,255,0.5);
+    width : 80vw;
+    max-width : 300px;
 }
 
 #numGames::-webkit-inner-spin-button {
@@ -196,11 +194,6 @@ label[for="x"]:hover, label[for="o"]:hover {
 }
 
 @media (max-width: 400px) {
-    .board {
-        width : 90vw;
-        height : 90vw;
-    }
-
     .grid {
         font-size: 3.75rem;
     }
@@ -209,5 +202,15 @@ label[for="x"]:hover, label[for="o"]:hover {
 @media (max-width : 370px) {
     .grid {
         font-size: 2.8rem;
+    }
+}
+
+@keyframes deFade {
+    from {
+        opacity : 0;
+    }
+
+    to {
+        opacity: 1;
     }
 }
