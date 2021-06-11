@@ -74,7 +74,7 @@
     font-size: 1.5rem;
 }
 
-#single-player, #multi-player, #x, #o {
+#single-player, #multi-player, #x, #o, #random {
     display : none;
 }
 
@@ -120,20 +120,27 @@ label[for="o"] {
     background-image: linear-gradient(to right, #fc03a9, #fc0356);
 }
 
-label[for="x"], label[for="o"] {
+label[for="random"] {
+    color : black;
+    font-family: var(--handFont) !important;
+    margin: 0 auto 0 auto;
+    background-image: linear-gradient(to right, #a8eb34, #49f536);
+}
+
+label[for="x"], label[for="o"], label[for="random"] {
+    display : block;
     font-family: var(--boldFont);
     cursor : pointer;
     font-size: 2rem;
     display : block;
     border-radius: 30px;
     width : 80%;
-    box-shadow: 
-                0 3px 20px rgba(0,0,0,0.5);
+    box-shadow: 0 3px 20px rgba(0,0,0,0.5);
 
     transition : all 0.2s ease-in;
 }
 
-label[for="x"]:hover, label[for="o"]:hover {
+label[for="x"]:hover, label[for="o"]:hover, label[for="random"]:hover {
     transform : scale(1.2, 1.2);
 }
 

@@ -4,6 +4,10 @@ const logo = document.querySelector('.logo');
 
 logo.style.display = 'block';
 
+const generateRandom = (min,max) => {
+    return Math.floor(Math.random()*(max-min+1)) + min;
+}
+
 const clearBoard = () => {
     while(board.firstChild) {
         board.removeChild(board.firstChild);
@@ -80,6 +84,15 @@ const onChooseO = () => {
     }
 }
 
+const onChooseRandom = () => {
+    const num = generateRandom(1,2);
+    if (num === 1) {
+        onChooseX();
+    } else {
+        onChooseO();
+    }
+}
+
 const onChooseNumConfirm = () => {
     const numForm = document.querySelector('.number-of-games');
     numForm.classList.add('fade');
@@ -130,7 +143,7 @@ const onChooseNumConfirm = () => {
                 m2.style.color = 'var(--pink)'; 
             }
         }
-        p2.style.backgroundImage = "url('/assets/human.png')";
+        p2.style.backgroundImage = "url('/assets/human1.jpg')";
 
         gameState.numberOfGames = Number(numGames.value);
         startGame();
@@ -196,7 +209,16 @@ const createChooseFormHelper = (type) => {
     inputO.type = 'checkbox';
     inputO.id = 'o';
 
-    addChildren(chooseForm, labelX, br, inputX, labelO, inputO);
+    const br1 = document.createElement('br');
+    const labelRandom = document.createElement('label');
+    labelRandom.setAttribute('for','random');
+    labelRandom.textContent = 'Random';
+    labelRandom.onclick = onChooseRandom;
+    const inputRandom = document.createElement('input');
+    inputRandom.type = 'checkbox';
+    inputRandom.id = 'random';
+
+    addChildren(chooseForm, labelX, br, inputX, labelO, inputO, br1, labelRandom, inputRandom);
     board.appendChild(backButton);
     board.appendChild(chooseForm);
 }

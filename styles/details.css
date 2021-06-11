@@ -53,10 +53,6 @@
     font-size: min(4vw, 1rem);
 }
 
-/* .moveCard {
-    animation : turnIndicator 1s linear infinite !important;
-} */
-
 .player-1 {
     animation : moveInLeft 1s ease-in-out;
 }
@@ -74,9 +70,10 @@
     width : 45%;
     border-radius : 10px;
     padding: 5px;
-    background-color: var(--borderColor);
+    background-color: var(--color1);
     font-weight: bold;
     color : white;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
 }
 
 .player-1-avatar, .player-2-avatar {
