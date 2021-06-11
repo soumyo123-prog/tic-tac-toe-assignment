@@ -95,12 +95,18 @@ const changeStyleOnWin = (player, indexes) => {
     }
 
     setTimeout(() => {
-        finalWinnerFinder();
+        gameOver();
     }, 1000);
 }
 
 const gameOver = () => {
     const gameNumber = document.querySelector('.game-number');
+
+    for (let i=0; i<9; i++) {
+        grids[i].innerHTML = "";
+        grids[i].style.color = "black";
+        grids[i].style.backgroundColor = 'var(--color2)'
+    }
 
     gameState.gamesCompleted += 1;
     if (gameState.gamesCompleted === gameState.numberOfGames) {
@@ -133,6 +139,8 @@ const changeTurn = () => {
 }
 
 const startGame = () => {
+    console.log(gameState);
+
     moves = 0;
     t1 = document.querySelector('.player-1');
     t2 = document.querySelector('.player-2');
