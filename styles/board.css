@@ -60,7 +60,7 @@
     height : 90%;
 }
 
-.option-form, .name-form, .choose-form, .number-of-games, .final-winner {
+.option-form, .name-form, .choose-form, .number-of-games, .final-winner, .difficulty-form {
     width : 100%;
     font-size: min(6vw, 1.3rem);
     text-align: center;
@@ -85,7 +85,7 @@
     animation: deFade 1s ease-in-out;
 }
 
-#single-player, #multi-player, #x, #o, #random {
+#single-player, #multi-player, #x, #o, #random, #easy, #medium, #hard{
     display : none;
 }
 
@@ -99,8 +99,8 @@ label[for="multi-player"] {
     color : black;   
 }
 
-
-label[for="single-player"], label[for="multi-player"] {
+label[for="single-player"], label[for="multi-player"],
+label[for="easy"], label[for="medium"], label[for="hard"] {
     width : 80%;
     border-radius : 30px;
     display : block;
@@ -111,11 +111,11 @@ label[for="single-player"], label[for="multi-player"] {
     padding : 5px;
     transition: all 0.2s ease-in;
     
-    box-shadow: 
-                0 3px 20px rgba(0,0,0,0.5);
+    box-shadow: 0 3px 20px rgba(0,0,0,0.5);
 }
 
-label[for="single-player"]:hover, label[for="multi-player"]:hover {
+label[for="single-player"]:hover, label[for="multi-player"]:hover,
+label[for="easy"]:hover, label[for="medium"]:hover, label[for="hard"]:hover {
     transform : scale(1.2,1.2);
 }
 

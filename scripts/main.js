@@ -13,7 +13,8 @@ let gameState = {
     type : null,
     scores : null,
     moves : null,
-    names : null
+    names : null,
+    difficulty : null
 }
 
 const reset = () => {
@@ -171,7 +172,11 @@ const startGame = () => {
         initialTurn = turn;
 
         if (turn === 1) {
-            const {row,col} = findBestMove(gameState.moves);
+            let row=null, col=null, values = null;
+            values = findBestMove(gameState.moves);
+
+            row = values.row;
+            col = values.col;
             layout[row][col] = "X";
 
             grids[3*row + col].innerHTML = "X";
@@ -251,12 +256,21 @@ const removeEventListenerMulti = () => {
 }
 
 const callBot = () => {
-    let row = null, col = null;
+    let row = null, col = null, values = null;
 
-    const values = findBestMove(gameState.moves);
-    row = values.row, col = values.col;
+    const randNum = Math.random();
+    if (gameState.difficulty === "easy" && randNum < 0.5) {
+        values = takeRandomMove();
+    } else if (gameState.difficulty === "medium" && randNum < 0.25) {
+        values = takeRandomMove();
+    } else {
+        values = findBestMove(gameState.moves);
+    }
+
+    row = values.row;
+    col = values.col;
+
     layout[row][col] = gameState.moves.bot;
-
     grids[row*3 + col].innerHTML = `<span>${gameState.moves.bot}</span>`;
 
     if (gameState.moves.bot === "X") {

@@ -14,10 +14,14 @@ const addChildren = (...args) => {
     }
 }
 
-const goBack = (pageNum, isMulti) => {
+const goBack = (pageNum, isMulti, isSingle) => {
     if (isMulti) {
         createNameForm(false);
         gameState.names = null;
+
+    } else if (isSingle) {
+        createDifficultyForm(false);
+        gameState.difficulty = null;
 
     } else {
         if (pageNum === 1) {
@@ -35,13 +39,28 @@ const goBack = (pageNum, isMulti) => {
 }
 
 const onChooseSingle = () => {
-    createChooseForm("single", true);
+    createDifficultyForm(true);
 
     gameState.type = "single";
     gameState.scores = {
         bot : 0,
         player : 0
-    }
+    };
+}
+
+const onChooseEasy = () => {
+    gameState.difficulty = 'easy';
+    createChooseForm("single", true);
+}
+
+const onChooseMed = () => {
+    gameState.difficulty = 'medium';
+    createChooseForm("single", true);
+}
+
+const onChooseHard = () => {
+    gameState.difficulty = 'hard';
+    createChooseForm("single", true);
 }
 
 const onChooseMulti = () => {

@@ -12,6 +12,7 @@ const resetGame = () => {
         scores : null,
         moves : null,
         names : null,
+        difficulty : null
     }
 
     turn = null;

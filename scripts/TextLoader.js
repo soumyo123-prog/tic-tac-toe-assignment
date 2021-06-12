@@ -92,6 +92,65 @@ const createOptionsForm = () => {
 }
 createOptionsForm();
 
+const createDifficultyFormHelper = () => {
+    clearBoard(board);
+
+    const backButton = document.createElement('button');
+    backButton.className = 'back-button';
+    backButton.innerHTML = `<i class="fas fa-backward"></i>`;
+    backButton.onclick = () => {
+        goBack(1);
+    }
+
+    const difficultyForm = document.createElement('div');
+    difficultyForm.className = 'difficulty-form';
+
+    const labelEasy = document.createElement('label');
+    labelEasy.setAttribute('for', 'easy'); 
+    labelEasy.textContent = 'Easy';
+    labelEasy.onclick = onChooseEasy;
+    const br1 = document.createElement('br');
+    const inputEasy = document.createElement('input');
+    inputEasy.type = 'checkbox';
+    inputEasy.id = 'easy';
+
+    const labelMed = document.createElement('label');
+    labelMed.setAttribute('for', 'medium'); 
+    labelMed.textContent = 'Medium';
+    labelMed.onclick = onChooseMed;
+    const br2 = document.createElement('br');
+    const inputMed = document.createElement('input');
+    inputMed.type = 'checkbox';
+    inputMed.id = 'medium';
+
+    const labelHard = document.createElement('label');
+    labelHard.setAttribute('for', 'hard'); 
+    labelHard.textContent = 'Hard';
+    labelHard.onclick = onChooseHard;
+    const inputHard = document.createElement('input');
+    inputHard.type = 'checkbox';
+    inputHard.id = 'hard';
+
+    addChildren(difficultyForm, labelEasy, br1, inputEasy, labelMed, br2, inputMed, labelHard, inputHard);
+    board.appendChild(backButton);
+    board.appendChild(difficultyForm);
+}
+
+const createDifficultyForm = (forward) => {
+    const optionsForm = document.querySelector('.option-form');
+    if (optionsForm) {
+        optionsForm.classList.add('fade');
+    }
+
+    if (forward) {
+        setTimeout(() => {
+            createDifficultyFormHelper();
+        },250);
+    } else {
+        createDifficultyFormHelper();
+    }
+}
+
 const createNameFormHelper = () => {
     clearBoard(board);
 
@@ -150,7 +209,7 @@ const createChooseFormHelper = (type) => {
     backButton.className = 'back-button';
     backButton.innerHTML = `<i class="fas fa-backward"></i>`;
     backButton.onclick = () => {
-        goBack(1, type === "multi" ? true : undefined);
+        goBack(1, type === "multi" ? true : false, type === "single" ? true : false);
     }
 
     const chooseForm = document.createElement('div');
@@ -190,10 +249,11 @@ const createChooseFormHelper = (type) => {
 
 const createChooseForm = (type, forward) => {
     if (type === "single") {
-        const optionsForm = document.querySelector('.option-form');
-        if (optionsForm) {
-            optionsForm.classList.add('fade');
+        const difficulty = document.querySelector('.difficulty-form');
+        if (difficulty) {
+            difficulty.classList.add('fade');
         }
+        
     } else {
         const nameForm = document.querySelector('.name-form');
         if (nameForm) {
