@@ -54,18 +54,13 @@ body {
     height : 40px;
     background-image : linear-gradient(to bottom, var(--yellow), var(--red));
     border-radius : 50%;
-    margin-top: 5px;
+    margin-top: 10px;
 
     transition: all 0.2s ease;
 }
 
 .reset-game-button {
     display : block;
-}
-
-.reset-game-button:active {
-    transform: translateY(5px);
-    box-shadow: none;
 }
 
 .reset-game-button:hover {

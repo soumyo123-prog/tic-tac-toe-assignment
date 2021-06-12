@@ -32,22 +32,34 @@ const finalWinnerText = (winner) => {
     if ((winner) === 0) {
         return `
             <div class="final-winner">
-                The Game Was a Tie
+                <span class="yellow-final"> T </span>
+                <span class="pink-final">   i </span>
+                <span class="yellow-final"> e </span>
             </div>
         `
     } else {
         if (gameState.type === "multi") {
             return `
                 <div class="final-winner">
-                    Congratulations ! <br>
-                    Player ${winner + " has"} Won the Game
+                    <span class="yellow-final"> W </span>
+                    <span class="pink-final"> I </span>
+                    <span class="yellow-final"> N </span>
+                    <span class="pink-final"> N </span>
+                    <span class="yellow-final"> E </span>
+                    <span class="pink-final"> R </span> <br>
+                    ${winner === 1 ? gameState.names.player1 : gameState.names.player2}
                 </div>
             `
         } else {
             return `
                 <div class="final-winner">
-                    Congratulations ! <br>
-                    ${winner === 1 ? "Computer has" : "Player has"} Won the Game
+                    <span class="yellow-final"> W </span>
+                    <span class="pink-final"> I </span>
+                    <span class="yellow-final"> N </span>
+                    <span class="pink-final"> N </span>
+                    <span class="yellow-final"> E </span>
+                    <span class="pink-final"> R </span> <br>
+                    ${winner === 1 ? "Computer" : "Human"}
                 </div>
             `
         }
@@ -65,10 +77,6 @@ const finalWinnerFinder = () => {
     } else {
         board.innerHTML = finalWinnerText(0);
     }  
-    
-    setTimeout(() => {
-        reset();
-    }, 2000);
 }
 
 const changeStyleOnWin = (player, indexes) => {
