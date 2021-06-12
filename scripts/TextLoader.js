@@ -144,7 +144,6 @@ const createNameForm = (forward) => {
 }
 
 const createChooseFormHelper = (type) => {
-    console.log(gameState);
     clearBoard(board);
 
     const backButton = document.createElement('button');
@@ -204,7 +203,7 @@ const createChooseForm = (type, forward) => {
 
     if (forward) {
         const back = document.querySelector('.back-button');
-        back.disabled = true;
+        back ? back.disabled = true : null;
 
         setTimeout(() => {
             createChooseFormHelper(type);
