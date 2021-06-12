@@ -10,7 +10,8 @@ const resetGame = () => {
         gamesCompleted : 0,
         type : null,
         scores : null,
-        moves : null
+        moves : null,
+        names : null,
     }
 
     turn = null;

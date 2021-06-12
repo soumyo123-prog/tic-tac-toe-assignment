@@ -12,7 +12,8 @@ let gameState = {
     gamesCompleted : 0,
     type : null,
     scores : null,
-    moves : null
+    moves : null,
+    names : null
 }
 
 const reset = () => {
@@ -89,9 +90,9 @@ const changeStyleOnWin = (player, indexes) => {
     }
     
     if (player === 1) {
-        s1.innerHTML = (gameState.type === "multi" ? "P1 " : "Computer ")+" : "+gameState.scores[gameState.type === "multi" ? "player1" : "bot"];
+        s1.innerHTML = (gameState.type === "multi" ? `${gameState.names.player1} ` : "Computer ")+" : "+gameState.scores[gameState.type === "multi" ? "player1" : "bot"];
     } else {
-        s2.innerHTML = (gameState.type === "multi" ? "P2 " : "Player ")+" : "+gameState.scores[gameState.type === "multi" ? "player1" : "player"];
+        s2.innerHTML = (gameState.type === "multi" ? `${gameState.names.player2} ` : "Player ")+" : "+gameState.scores[gameState.type === "multi" ? "player1" : "player"];
     }
 
     setTimeout(() => {

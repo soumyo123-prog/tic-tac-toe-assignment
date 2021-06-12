@@ -4,98 +4,12 @@ const logo = document.querySelector('.logo');
 
 logo.style.display = 'block';
 
-const generateRandom = (min,max) => {
-    return Math.floor(Math.random()*(max-min+1)) + min;
-}
-
-const clearBoard = () => {
-    while(board.firstChild) {
-        board.removeChild(board.firstChild);
-    }
-}
-
-const addChildren = (...args) => {
-    for (let i=1; i<args.length; i++) {
-        args[0].appendChild(args[i]);
-    }
-}
-
-const goBack = (pageNum) => {
-    if (pageNum === 1) {
-        createOptionsForm();
-
-        gameState.type = null;
-        gameState.scores = null;
-        x = null;
-        y = null;
-    } else {
-        createChooseForm(gameState.type, false);
-        gameState.moves = null;
-    }
-}
-
-const onChooseSingle = () => {
-    createChooseForm("single", true);
-
-    gameState.type = "single";
-    gameState.scores = {
-        bot : 0,
-        player : 0
-    }
-}
-
-const onChooseMulti = () => {
-    createChooseForm("multi", true);
-
-    gameState.type = "multi";
-    gameState.scores = {
-        player1 : 0,
-        player2 : 0
-    }
-}
-
-const onChooseX = () => {
-    createNumForm();
-    if (gameState.type === "single") {
-        gameState.moves = {
-            bot : "O",
-            player : "X"
-        }
-    } else {
-        gameState.moves = {
-            player1 : "X",
-            player2 : "O"
-        }
-    }
-}
-
-const onChooseO = () => {
-    createNumForm();
-    if (gameState.type === "single") {
-        gameState.moves = {
-            bot : "X",
-            player : "O"
-        }
-    } else {
-        gameState.moves = {
-            player1 : "O",
-            player2 : "X"
-        }
-    }
-}
-
-const onChooseRandom = () => {
-    const num = generateRandom(1,2);
-    if (num === 1) {
-        onChooseX();
-    } else {
-        onChooseO();
-    }
-}
-
 const onChooseNumConfirm = () => {
     const numForm = document.querySelector('.number-of-games');
     numForm.classList.add('fade');
+
+    const back = document.querySelector('.back-button');
+    back.disabled = true;
 
     setTimeout(() => {
         const numGames = document.querySelector('#numGames');
@@ -151,7 +65,7 @@ const onChooseNumConfirm = () => {
 }
 
 const createOptionsForm = () => {
-    clearBoard();
+    clearBoard(board);
 
     const optionForm = document.createElement('div');
     optionForm.className = 'option-form';
@@ -178,8 +92,8 @@ const createOptionsForm = () => {
 }
 createOptionsForm();
 
-const createChooseFormHelper = (type) => {
-    clearBoard();
+const createNameFormHelper = () => {
+    clearBoard(board);
 
     const backButton = document.createElement('button');
     backButton.className = 'back-button';
@@ -188,9 +102,61 @@ const createChooseFormHelper = (type) => {
         goBack(1);
     }
 
+    const nameForm = document.createElement('div');
+    nameForm.className = 'name-form';
+    nameForm.textContent = "Choose Names for Players :"
+    
+    const input1 = document.createElement('input');
+    input1.type = 'text';
+    input1.placeholder = "Player One";
+    input1.id = "player-1-name";
+
+    const input2 = document.createElement('input');
+    input2.type = 'text';
+    input2.placeholder = "Player Two";
+    input2.id = "player-2-name";
+
+    const confirmName = document.createElement('button');
+    confirmName.innerHTML = `<i class="fas fa-arrow-right"></i>`;
+    confirmName.className = "player-names-confirm";
+    confirmName.onclick = () => {
+        onChooseNames(input1.value, input2.value);
+    }
+
+    addChildren(nameForm, input1, input2, confirmName);
+    board.appendChild(backButton);
+    board.appendChild(nameForm);
+}
+
+const createNameForm = (forward) => {
+    const optionsForm = document.querySelector('.option-form');
+    if (optionsForm) {
+        optionsForm.classList.add('fade');
+    }
+
+    if (forward) {
+        setTimeout(() => {
+            createNameFormHelper();
+        },250);
+    } else {
+        createNameFormHelper();
+    }
+}
+
+const createChooseFormHelper = (type) => {
+    console.log(gameState);
+    clearBoard(board);
+
+    const backButton = document.createElement('button');
+    backButton.className = 'back-button';
+    backButton.innerHTML = `<i class="fas fa-backward"></i>`;
+    backButton.onclick = () => {
+        goBack(1, type === "multi" ? true : undefined);
+    }
+
     const chooseForm = document.createElement('div');
     chooseForm.className = 'choose-form';
-    chooseForm.innerHTML = `${type === 'multi' ? "Choose move for Player 1 : <br>" : ""}`;
+    chooseForm.innerHTML = `${type === 'multi' ? `Choose move for ${gameState.names.player1} : <br>` : ""}`;
     
     const labelX = document.createElement('label');
     labelX.setAttribute('for', 'x');
@@ -223,15 +189,26 @@ const createChooseFormHelper = (type) => {
     board.appendChild(chooseForm);
 }
 
-const createChooseForm = (type, isForwarding) => {
-    if (isForwarding) {
+const createChooseForm = (type, forward) => {
+    if (type === "single") {
         const optionsForm = document.querySelector('.option-form');
-        optionsForm.classList.add('fade');
+        if (optionsForm) {
+            optionsForm.classList.add('fade');
+        }
+    } else {
+        const nameForm = document.querySelector('.name-form');
+        if (nameForm) {
+            nameForm.classList.add('fade');
+        }
+    }
+
+    if (forward) {
+        const back = document.querySelector('.back-button');
+        back.disabled = true;
 
         setTimeout(() => {
             createChooseFormHelper(type);
         }, 250);
-
     } else {
         createChooseFormHelper(type);
     }
@@ -253,8 +230,11 @@ const createNumForm = () => {
     const chooseForm = document.querySelector('.choose-form');
     chooseForm.classList.add('fade');
 
+    const back = document.querySelector('.back-button');
+    back.disabled = true;
+
     setTimeout(() => {
-        clearBoard();
+        clearBoard(board);
 
         const backButton = document.createElement('button');
         backButton.className = 'back-button';
@@ -293,15 +273,15 @@ const changeStartedDetails = (games, type) => {
         <div class="player-cards">
             <div class = "player-1">
                 <div class = "player-1-avatar"></div>
-                <div class="player-score-1">${type === "single" ? "Computer" : "P1"} : 0</div>
+                <div class="player-score-1">${type === "single" ? "Computer" : `${gameState.names.player1}`} : 0</div>
                 <div class="player-1-move"></div>
-                <div class="player-1-turn">${type === "single" ? "Computer's Turn" : "P1's Turn"}</div>
+                <div class="player-1-turn">${type === "single" ? "Computer's Turn" : `${gameState.names.player1}'s Turn`}</div>
             </div>
             <div class = "player-2">
                 <div class = "player-2-avatar"></div>
-                <div class="player-score-2">${type === "single" ? "Player" : "P2"} : 0</div>
+                <div class="player-score-2">${type === "single" ? "Human" : `${gameState.names.player2}`} : 0</div>
                 <div class="player-2-move"></div>
-                <div class="player-2-turn">${type === "single" ? "Player's Turn" : "P2's Turn"}</div>
+                <div class="player-2-turn">${type === "single" ? "Human's Turn" : `${gameState.names.player2}'s Turn`}</div>
             </div>
         </div>
     `

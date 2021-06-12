@@ -62,7 +62,7 @@
     height : 90%;
 }
 
-.option-form, .choose-form, .number-of-games, .final-winner {
+.option-form, .name-form, .choose-form, .number-of-games, .final-winner {
     width : 100%;
     font-size: min(6vw, 1.3rem);
     text-align: center;
@@ -144,7 +144,7 @@ label[for="x"]:hover, label[for="o"]:hover, label[for="random"]:hover {
     transform : scale(1.2, 1.2);
 }
 
-.numgamesConfirm {
+.numgamesConfirm, .player-names-confirm {
     display : inline-flex;
     justify-content: center;
     align-items: center;
@@ -164,12 +164,12 @@ label[for="x"]:hover, label[for="o"]:hover, label[for="random"]:hover {
     transition: all 0.2s ease;
 }
 
-.numgamesConfirm:active {
+.numgamesConfirm:active, .player-names-confirm:active {
     transform: translateY(5px);
     box-shadow: none;
 }
 
-#numGames {
+#numGames, #player-1-name, #player-2-name {
     display: block;
     margin: 0 auto 0 auto;
     border-radius: 20px;
