@@ -85,6 +85,12 @@
     animation: deFade 1s ease-in-out;
 }
 
+.indicator {
+    font-family: var(--handFont);
+    font-size : min(1.1rem, 5vw);
+    color : black;
+}
+
 #single-player, #multi-player, #x, #o, #random, #easy, #medium, #hard{
     display : none;
 }

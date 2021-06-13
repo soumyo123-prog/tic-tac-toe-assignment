@@ -220,7 +220,7 @@ const createChooseFormHelper = (type) => {
     
     const labelX = document.createElement('label');
     labelX.setAttribute('for', 'x');
-    labelX.textContent = 'X';
+    labelX.innerHTML = 'X <span class="indicator">(Makes First Move)</span>';
     labelX.onclick = onChooseX;
     const br = document.createElement('br');
     const inputX = document.createElement('input');
@@ -229,7 +229,7 @@ const createChooseFormHelper = (type) => {
 
     const labelO = document.createElement('label');
     labelO.setAttribute('for', 'o');
-    labelO.textContent = 'O';
+    labelO.innerHTML = 'O';
     labelO.onclick = onChooseO;
     const inputO = document.createElement('input');
     inputO.type = 'checkbox';
