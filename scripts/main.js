@@ -97,7 +97,6 @@ const changeStyleOnWin = (player, indexes) => {
     } else {
         gameState.scores[player === 1 ? "bot" : "player"] += 1;
     }
-    console.log(gameState.scores)
     
     if (player === 1) {
         s1.innerHTML = (gameState.type === "multi" ? `${gameState.names.player1} ` : "Computer ")+" : "+gameState.scores[gameState.type === "multi" ? "player1" : "bot"];

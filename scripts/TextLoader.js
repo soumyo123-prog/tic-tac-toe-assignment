@@ -169,11 +169,13 @@ const createNameFormHelper = () => {
     input1.type = 'text';
     input1.placeholder = "Player One";
     input1.id = "player-1-name";
+    input1.maxLength = 8;
 
     const input2 = document.createElement('input');
     input2.type = 'text';
     input2.placeholder = "Player Two";
     input2.id = "player-2-name";
+    input2.maxLength = 8;
 
     const confirmName = document.createElement('button');
     confirmName.innerHTML = `<i class="fas fa-arrow-right"></i>`;
